@@ -20,7 +20,6 @@ attr_reader :data, :districts
     data.each do |row|
       if row[:location] == input.upcase
         district = District.new(row)
-        return district
       end
     end
   end
