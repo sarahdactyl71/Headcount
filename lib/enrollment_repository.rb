@@ -20,7 +20,6 @@ attr_reader :data, :enrollments
         @enrollments << enrollment
       end
     end
-    binding.pry
   end
 
 end
