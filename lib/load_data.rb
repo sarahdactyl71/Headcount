@@ -7,4 +7,9 @@ module LoadData
   def says_hi
     "Hello"
   end
+
+  def load_data(file, data_kind)
+    
+  end
+
 end
