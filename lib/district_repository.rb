@@ -7,12 +7,12 @@ class DistrictRepository
 attr_reader :data, :districts
 
   def initialize
-    @districts = {}
+    @districts = []
   end
 
   def load_data(args)
     @data = CSV.open args[:enrollment][:kindergarten], headers: true, header_converters: :symbol
-    district_list(data)
+    # district_list(data)
   end
 
 
@@ -21,16 +21,16 @@ attr_reader :data, :districts
     data.map do |row|
       if row[:location] == input
         district = District.new(row)
+        districts << district
           binding.pry
-
       end
     end
   end
 
-  def district_list(input)
-    districts = data.map do |row|
-      row[:location]
-    end
-  end
+  # def district_list(input)
+  #   districts = data.map do |row|
+  #     row[:location]
+  #   end
+  # end
 
 end
