@@ -22,7 +22,6 @@ attr_reader :data, :districts
       if row[:location] == input
         district = District.new(row)
           binding.pry
-        return district
 
       end
     end
