@@ -1,6 +1,10 @@
-class District
+require "pry"
 
-  def name
+class District
+attr_reader :name
+
+  def initialize(args)
+    @name = args[:location].upcase
   end
 
 end
