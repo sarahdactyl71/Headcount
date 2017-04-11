@@ -1,10 +1,13 @@
 require 'CSV'
-require './lib/enrollment'
+require_relative './lib/enrollment'
 require "pry"
 
 class EnrollmentRepository
-attr_reader :data
+attr_reader :data, :enrollments
 
+  def initialize
+    @enrollments = []
+  end
   def load_data(args)
     @data = CSV.open args[:enrollment][:kindergarten], headers: true, header_converters: :symbol
   end
@@ -12,10 +15,11 @@ attr_reader :data
   def find_by_name(input)
     data.each do |row|
       if row[:location] == input.upcase
-        enrollments = Enrollment.new(row)
-        return enrollments
+        enrollment = Enrollment.new(row)
+        @enrollments << enrollment
       end
     end
+    binding.pry
   end
 
 end

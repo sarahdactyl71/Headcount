@@ -1,7 +1,7 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/enrollment'
+require_relative './lib/enrollment'
 
 class EnrollmentTest < Minitest::Test
 
