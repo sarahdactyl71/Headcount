@@ -19,18 +19,17 @@ attr_reader :data, :districts, :district_list
     search = input.upcase
     final_results = []
     @districts.each do |district|
-      names = district.name.upcase
+      names = district.name
       if names == search
-        final_results << district
+        return district.name
       end
     end
-    final_results
   end
 
   def district_list(input)
-    list = input.map do |object|
-      name = object[:location]
-      object = District.new(name)
+    list = input.map do |district|
+      name = district[:location]
+      district = District.new(name)
     end
   end
 
