@@ -9,5 +9,5 @@ class DistrictReponsitoryTest < Minitest::Test
     assert_instance_of DistrictRepository, dr
   end
 
-  
+
 end
