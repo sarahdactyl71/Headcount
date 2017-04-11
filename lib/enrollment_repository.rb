@@ -1,5 +1,5 @@
 require 'CSV'
-require_relative './lib/enrollment'
+require './lib/enrollment'
 require "pry"
 
 class EnrollmentRepository
@@ -16,6 +16,7 @@ attr_reader :data, :enrollments
     data.each do |row|
       if row[:location] == input.upcase
         enrollment = Enrollment.new(row)
+        return enrollment
         @enrollments << enrollment
       end
     end

@@ -1,7 +1,7 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative './lib/enrollment_repository'
+require './lib/enrollment_repository'
 
 class EnrollmentRepositoryTest < Minitest::Test
   def test_init
@@ -21,7 +21,6 @@ class EnrollmentRepositoryTest < Minitest::Test
     end
 
   def test_load_data_two
-    skip
     er = EnrollmentRepository.new
     er.load_data({
         :enrollment => {
