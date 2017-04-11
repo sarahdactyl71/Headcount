@@ -16,8 +16,8 @@ class DistrictReponsitoryTest < Minitest::Test
           :kindergarten => "./data/Kindergartners in full-day program.csv"
         }
       })
-    assert_equal true, dr.find_by_name("Something")
-    
+    district = dr.find_by_name("ACADEMY 20")
+    #assert_instance_of District, district
     end
 
 end
