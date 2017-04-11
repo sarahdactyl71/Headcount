@@ -8,8 +8,8 @@ module LoadData
     "Hello"
   end
 
-  def load_data(file, data_kind)
-    
+  def load_data(file, data_kind = :enrollment)
+
   end
 
 end
