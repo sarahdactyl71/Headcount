@@ -6,7 +6,7 @@ class EnrollmentRepository
 attr_reader :data, :enrollments
 
   def initialize
-    @enrollments = []
+    @enrollments = {}
   end
   def load_data(args)
     @data = CSV.open args[:enrollment][:kindergarten], headers: true, header_converters: :symbol
@@ -17,7 +17,7 @@ attr_reader :data, :enrollments
       if row[:location] == input.upcase
         enrollment = Enrollment.new(row)
         return enrollment
-        @enrollments << enrollment
+        #@enrollments << enrollment
       end
     end
     binding.pry
