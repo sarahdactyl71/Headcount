@@ -16,7 +16,12 @@ class DistrictReponsitoryTest < Minitest::Test
           :kindergarten => "./data/Kindergartners in full-day program.csv"
         }
       })
-      
+
     end
+
+    def test_does_a_girl_have_a_name
+      dr = DistrictRepository.new
+      dr.find_by_name("ACADEMY 20")
+      
 
 end
