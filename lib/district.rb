@@ -4,7 +4,7 @@ class District
 attr_reader :name
 
   def initialize(args)
-    @name = args[:location]
+    @name = args[:location].upcase
   end
 
 end

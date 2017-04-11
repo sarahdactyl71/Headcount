@@ -8,8 +8,14 @@ module LoadData
     "Hello"
   end
 
-  def load_data(file, data_kind = :enrollment)
-
+  def load_data(data_kind = :enrollment, file)
+    files = file[data_kind]
+    tagged_files = {}
+    files.each_pair do |data_kind, file|
+      opened_file = CSV.open file,
+      headers: true, header_converters: :symbol
+      tagged_files[data_kind] = opened_file
+    end
+    tagged_files
   end
-
 end
