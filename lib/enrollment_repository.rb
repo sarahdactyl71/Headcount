@@ -1,5 +1,5 @@
 require 'CSV'
-require './lib/enrollment'
+require_relative 'enrollment'
 require "pry"
 
 class EnrollmentRepository
@@ -21,7 +21,7 @@ attr_reader :data, :enrollments
       enrollment.name == input.upcase
     end
   end
-  
+
 end
 
 # binding.pry
