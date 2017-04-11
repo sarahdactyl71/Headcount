@@ -17,7 +17,7 @@ class DistrictReponsitoryTest < Minitest::Test
         }
       })
     district = dr.find_by_name("ACADEMY 20")
-    return district
+    #assert_instance_of District, district
     end
 
 end
