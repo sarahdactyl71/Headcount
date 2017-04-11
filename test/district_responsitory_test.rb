@@ -9,5 +9,14 @@ class DistrictReponsitoryTest < Minitest::Test
     assert_instance_of DistrictRepository, dr
   end
 
+  def test_load_data
+    dr = DistrictRepository.new
+    dr.load_data({
+        :enrollment => {
+          :kindergarten => "./data/Kindergartners in full-day program.csv"
+        }
+      })
+      
+    end
 
 end
