@@ -3,24 +3,21 @@ require './lib/district'
 require "pry"
 
 class DistrictRepository
-# include Finder
 attr_reader :data, :districts
 
   def initialize
-    @districts = Hash.new
+    @districts = []
   end
 
   def load_data(args)
-    @data = CSV.open args[:enrollment][:kindergarten], headers: true, header_converters: :symbol
+    CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
+      districts << District.new(row)
+    end
   end
 
-
   def find_by_name(input)
-    data.each do |row|
-      if row[:location] == input.upcase
-        district = District.new(row)
-        return district
-      end
+    districts.find do |district|
+      district.name == input.upcase
     end
   end
 

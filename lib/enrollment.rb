@@ -5,19 +5,13 @@ class Enrollment
 attr_reader :name
   def initialize(args)
     @name = args[:location].upcase
-    @kindergarten_participation = args[:timeframe][:data]
+    # @years = args[:timeframe][:data]
+    binding.pry
   end
+  #i want to instantiate a class of Enrolloment that
+  #takes in two things: a name of district years of participation
 
   def kindergarten_participation_by_year
-    binding.pry
-    data.each do |row|
-      if row[:location] == input.upcase
-         @kindergarten_participation= Enrollment.new(row)
-        return enrollment
-        @kindergarten_participation << enrollment
-      end
-    end
-
   end
 
   def kindergarten_participation_in_year(year)
