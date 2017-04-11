@@ -7,7 +7,7 @@ class DistrictRepository
 attr_reader :data, :districts
 
   def initialize
-    @districts = []
+    @districts = Hash.new
   end
 
   def load_data(args)
@@ -19,6 +19,7 @@ attr_reader :data, :districts
     data.each do |row|
       if row[:location] == input.upcase
         district = District.new(row)
+        return district
       end
     end
   end
