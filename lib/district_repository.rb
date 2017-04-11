@@ -16,12 +16,11 @@ attr_reader :data, :districts
 
 
   def find_by_name(input)
-    binding.pry
-    data.map do |row|
+    data.each do |row|
       if row[:location] == input
         district = District.new(row)
-        districts << district
-          binding.pry
+        binding.pry
+        return district
       end
     end
   end
