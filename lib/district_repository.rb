@@ -18,9 +18,8 @@ attr_reader :data, :districts
 
   def find_by_name(input)
     data.each do |row|
-      if row[:location] == input
+      if row[:location] == input.upcase
         district = District.new(row)
-        binding.pry
         return district
       end
     end
