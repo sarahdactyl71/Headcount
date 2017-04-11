@@ -7,8 +7,9 @@ include Finder
 attr_reader :data
 
   def load_data(args)
-    @data = CSV.open args, headers: true, header_converters: :symbol
-    binding.pry
+    enrollment = args[:enrollment]
+    # kindergarten = enrollment[:kindergarten]
+    @data = CSV.open args(kindergarten, headers: true, header_converters: :symbol)
   end
 
 end
