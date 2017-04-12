@@ -1,7 +1,7 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative 'load_data'
+require './lib/load_data'
 
 class LoadDataTest < Minitest::Test
 
