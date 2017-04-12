@@ -2,12 +2,12 @@ require_relative "enrollment_repository"
 require 'pry'
 
 class Enrollment
-  
+
 attr_reader :name
 
   def initialize(args)
-    @name = args[:location]
-    # @kindergarten_participation = args[:kindergarten_participation]
+    @name = args[:name]
+    @kindergarten_participation = args[:kindergarten_participation]
   end
 
   # Goal 1: Build an array of these... {:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}}
