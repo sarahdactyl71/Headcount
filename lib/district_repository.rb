@@ -4,7 +4,9 @@ require_relative 'enrollment_repository'
 require "pry"
 
 class DistrictRepository
-attr_reader :data, :districts, :enrollment_repository
+attr_reader :data,
+            :districts,
+            :enrollment_repository
 
   def initialize
     @districts = []
@@ -13,16 +15,18 @@ attr_reader :data, :districts, :enrollment_repository
 
   def load_data(args)
     data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+    enrollment_repository.load_data(args)
     build_districts(data)
   end
 
   def build_districts(data)
     data.each do |row|
-      districts << District.new({name: row[:location]})
+      districts << District.new({name: row[:location], repo: self})
     end
   end
 
   def find_by_name(input)
+    enrollment_repository.find_by_name(input)
     districts.find do |district|
       district.name == input.upcase
     end
@@ -35,6 +39,7 @@ attr_reader :data, :districts, :enrollment_repository
     matches.map! {|district| district.name}
     matches.uniq
   end
+
 
 end
 

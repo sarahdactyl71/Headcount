@@ -17,6 +17,7 @@ attr_reader :name, :kindergarten_participation
   end
 
   def kindergarten_participation_in_year(year)
+    binding.pry
     return kindergarten_participation[year]
   end
 
