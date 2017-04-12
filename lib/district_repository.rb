@@ -26,7 +26,6 @@ attr_reader :data,
   end
 
   def find_by_name(input)
-    enrollment_repository.find_by_name(input)
     districts.find do |district|
       district.name == input.upcase
     end
