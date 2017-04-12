@@ -3,7 +3,7 @@ require_relative 'enrollment'
 require "pry"
 
 class EnrollmentRepository
-attr_reader :data, :enrollments
+attr_reader :enrollments
 
   def initialize
     @enrollments = []
@@ -24,13 +24,14 @@ attr_reader :data, :enrollments
   end
 
   def kindergarten_info(input)
-    data = {}
+    info = {}
     @data.each do |row|
       if row[:location] == input.upcase
-        data[row[:timeframe].to_i] = row[:data].to_f
+        info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    data
+    binding.pry
+    info
   end
 end
 

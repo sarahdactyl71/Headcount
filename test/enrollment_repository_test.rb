@@ -16,12 +16,11 @@ class EnrollmentRepositoryTest < Minitest::Test
           :kindergarten => "./data/Kindergartners in full-day program.csv"
         }
       })
-    enrollment = er.find_by_name("academy 20")
+    enrollment = er.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", enrollment.name
     end
 
   def test_load_data_two
-    skip
     er = EnrollmentRepository.new
     er.load_data({
         :enrollment => {
