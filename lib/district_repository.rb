@@ -4,7 +4,9 @@ require_relative 'enrollment_repository'
 require "pry"
 
 class DistrictRepository
-attr_reader :data, :districts, :enrollment_repository
+attr_reader :data,
+            :districts,
+            :enrollment_repository
 
   def initialize
     @districts = []
@@ -19,13 +21,11 @@ attr_reader :data, :districts, :enrollment_repository
 
   def build_districts(data)
     data.each do |row|
-      districts << District.new({name: row[:location]})
+      districts << District.new({name: row[:location], repo: self})
     end
   end
 
-
   def find_by_name(input)
-    enrollment_repository.find_by_name(input)
     districts.find do |district|
       district.name == input.upcase
     end
