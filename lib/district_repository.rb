@@ -1,12 +1,14 @@
 require "csv"
 require_relative 'district'
+require_relative 'enrollment_repository'
 require "pry"
 
 class DistrictRepository
-attr_reader :data, :districts
+attr_reader :data, :districts, :enrollment_repository
 
   def initialize
     @districts = []
+    @enrollment_repository = EnrollmentRepository.new
   end
 
   def load_data(args)
