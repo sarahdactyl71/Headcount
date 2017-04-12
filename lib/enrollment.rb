@@ -17,7 +17,9 @@ attr_reader :name, :kindergarten_participation
   end
 
   def kindergarten_participation_in_year(year)
-    return kindergarten_participation[year]
+    ouput = kindergarten_participation[year]
+    output = (ouput.to_f*1000).floor/1000.0
+    return output
   end
 
 end
