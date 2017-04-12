@@ -10,10 +10,21 @@ attr_reader :data, :districts
   end
 
   def load_data(args)
-    CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
+    data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+    build_districts(data)
+    binding.pry
+  end
+
+  def build_districts(data)
+    data.each do |row|
       districts << District.new({name: row[:location]})
     end
   end
+  # def load_data(args)
+  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
+  #     districts << District.new({name: row[:location]})
+  #   end
+  # end
 
   def find_by_name(input)
     districts.find do |district|
