@@ -7,13 +7,23 @@ require 'pry'
 class EnrollmentTest < Minitest::Test
 
   def test_init
-    en = Enrollment.new
+    en = Enrollment.new({:name => "ACADEMY 20"})
     assert_instance_of Enrollment, en
   end
 
   def test_if_it_has_name
-    en = Enrollment.new(@name = "ACADEMY 20")
+    en = Enrollment.new({:name => "ACADEMY 20"})
     assert_equal "ACADEMY 20", en.name
   end
 
+  def test_it_accepts_arguments
+    skip
+    e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
+
+  end
+
+  def test_it_knows_what_years_are
+    skip
+      e = Enrollment.new({:name => "ACADEMY 20", :kindergarten_participation => {2010 => 0.3915, 2011 => 0.35356, 2012 => 0.2677}})
+  end
 end
