@@ -1,12 +1,14 @@
 require "csv"
 require_relative 'district'
+require_relative 'enrollment_repository'
 require "pry"
 
 class DistrictRepository
-attr_reader :data, :districts
+attr_reader :data, :districts, :enrollment_repository
 
   def initialize
     @districts = []
+    @enrollment_repository = EnrollmentRepository.new
   end
 
   def load_data(args)
@@ -19,11 +21,6 @@ attr_reader :data, :districts
       districts << District.new({name: row[:location]})
     end
   end
-  # def load_data(args)
-  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
-  #     districts << District.new({name: row[:location]})
-  #   end
-  # end
 
   def find_by_name(input)
     districts.find do |district|
@@ -40,3 +37,9 @@ attr_reader :data, :districts
   end
 
 end
+
+  # def load_data(args)
+  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
+  #     districts << District.new({name: row[:location]})
+  #   end
+  # end

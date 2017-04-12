@@ -8,4 +8,8 @@ attr_reader :name
     @name = args[:name]
   end
 
+  def enrollment
+    
+  end
+
 end

@@ -18,6 +18,7 @@ class EnrollmentRepositoryTest < Minitest::Test
       })
     enrollment = er.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", enrollment.name
+    assert_equal true, enrollment.kindergarten_participation_in_year(2010)
     end
 
   def test_load_data_two

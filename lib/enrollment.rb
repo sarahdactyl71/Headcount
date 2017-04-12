@@ -3,11 +3,7 @@ require 'pry'
 
 class Enrollment
 
-<<<<<<< HEAD
 attr_reader :name, :kindergarten_participation
-=======
-attr_reader :name
->>>>>>> 7b2dc79a53b95fc9a32d7f34a01391ba8c4ed9fa
 
   def initialize(args)
     @name = args[:name]
@@ -15,10 +11,13 @@ attr_reader :name
   end
 
   def kindergarten_participation_by_year
-
+    kindergarten_participation.each_pair do |key, value|
+      kindergarten_participation[key] = (value.to_f*1000).floor/1000.0
+    end
   end
 
   def kindergarten_participation_in_year(year)
+    return kindergarten_participation[year]
   end
 
 end
