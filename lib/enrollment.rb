@@ -3,7 +3,7 @@ require 'pry'
 
 class Enrollment
 
-attr_reader :name
+attr_reader :name, :kindergarten_participation
 
   def initialize(args)
     @name = args[:name]
@@ -20,10 +20,17 @@ attr_reader :name
   #   Always Add the year as a key under the kindergarten_participation hash with a value of enrollment rate as a percentage
   #  Goal 2: After the array of hashes is complete we need to iterate over the array and return an array of Enrollment objects
   def kindergarten_participation_by_year
-
+    new_digits = kindergarten_participation.each_value do |value|
+      three_decimal_points(value)
+    end
+    new_digits
+    binding.pry
   end
 
   def kindergarten_participation_in_year(year)
   end
 
+  def three_decimal_points(input)
+    (input.to_f*1000).floor/1000.0
+  end
 end

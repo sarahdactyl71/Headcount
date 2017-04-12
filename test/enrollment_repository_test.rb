@@ -29,5 +29,6 @@ class EnrollmentRepositoryTest < Minitest::Test
       })
     enrollment = er.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     assert_equal "JOHNSTOWN-MILLIKEN RE-5J", enrollment.name
+    assert_equal "something", enrollment.kindergarten_participation_by_year
     end
 end

@@ -26,7 +26,7 @@ attr_reader :enrollments
   def kindergarten_info(input)
     info = {}
     @data.each do |row|
-      if row[:location] == input.upcase
+      if row[:location] == input.upcase && row[:data] != 0.0.to_f
         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
