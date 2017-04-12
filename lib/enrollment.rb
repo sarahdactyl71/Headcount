@@ -20,17 +20,12 @@ attr_reader :name, :kindergarten_participation
   #   Always Add the year as a key under the kindergarten_participation hash with a value of enrollment rate as a percentage
   #  Goal 2: After the array of hashes is complete we need to iterate over the array and return an array of Enrollment objects
   def kindergarten_participation_by_year
-    new_digits = kindergarten_participation.each_value do |value|
-      three_decimal_points(value)
+    kindergarten_participation.each_pair do |key, value|
+      kindergarten_participation[key] = (value.to_f*1000).floor/1000.0
     end
-    new_digits
     binding.pry
   end
 
   def kindergarten_participation_in_year(year)
-  end
-
-  def three_decimal_points(input)
-    (input.to_f*1000).floor/1000.0
   end
 end

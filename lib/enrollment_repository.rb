@@ -13,11 +13,6 @@ attr_reader :enrollments
     @data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
 
   end
-  # def load_data(args)
-  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
-  #     enrollments << Enrollment.new({name: row[:location], :kindergarten_participation => nil})
-  #   end
-  # end
 
   def find_by_name(input)
     Enrollment.new({:name => input, :kindergarten_participation => kindergarten_info(input)})
@@ -26,13 +21,20 @@ attr_reader :enrollments
   def kindergarten_info(input)
     info = {}
     @data.each do |row|
-      if row[:location] == input.upcase && row[:data] != 0.0.to_f
+      if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
     info
   end
+
 end
+
+  # def load_data(args)
+  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
+  #     enrollments << Enrollment.new({name: row[:location], :kindergarten_participation => nil})
+  #   end
+  # end
 
 # binding.pry
 # ""
