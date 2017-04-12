@@ -1,19 +1,12 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require_relative 'district'
-require_relative 'district_repository'
+require './lib/district'
+require './lib/district_repository'
 
 class DistrictTest < Minitest::Test
-  def test_init
-  dr = DistrictRepository.new
-  dr.load_data({
-      :enrollment => {
-        :kindergarten => "./data/Kindergartners in full-day program.csv"
-      }
-    })
-  district = dr.find_by_name("academy 20")
-  assert_instance_of District, district
-  end
-
+    def test_district_basics
+      district = District.new({:name => "ACADEMY 20"})
+      assert_equal "ACADEMY 20", district.name
+    end
 end
