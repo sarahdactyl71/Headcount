@@ -12,7 +12,6 @@ attr_reader :data, :districts
   def load_data(args)
     data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
     build_districts(data)
-    binding.pry
   end
 
   def build_districts(data)

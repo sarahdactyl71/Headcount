@@ -30,7 +30,6 @@ attr_reader :enrollments
         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    binding.pry
     info
   end
 end
