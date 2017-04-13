@@ -21,14 +21,12 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_it_is_a_headcount_analyst
-    skip
     assert ha
     assert_equal HeadcountAnalyst, ha.class
   end
 
-  def test_it_has_district_repository_by_default
-    skip
-    assert_equal DistrictRepository, ha.dr.class
+  def test_it_has_district_repository_by_defaul
+    assert_equal DistrictRepository, ha.district_repository.class
   end
 
   def test_district_participation_rate_varies_with_state
