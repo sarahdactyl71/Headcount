@@ -22,17 +22,19 @@ class HeadcountAnalyst
 
   def kindergarten_participation_rate_variation(district, args)
     year_and_rate(district)
+    year_and_rate(comparison)
+    output = (year_and_rate(district))/(year_and_rate(comparison))
+    binding.pry
   end
 
   def year_and_rate(input)
     load_data(info)
     info = {}
     @data.each do |row|
-      if row[:location] == input.upcase
+      if row[:location].upcase == input.upcase
          info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    binding.pry
     collect_participation(info)
   end
 
@@ -52,7 +54,6 @@ class HeadcountAnalyst
   def participation_average(input)
     sum = input.reduce(0) { |a, value| a + value }
     output = sum/(input.count)
-    binding.pry
   end
 
 end
