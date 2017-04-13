@@ -33,6 +33,4 @@ class HeadcountAnalyst
     info
   end
 
-
-
 end

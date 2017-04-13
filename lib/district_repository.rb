@@ -42,6 +42,7 @@ attr_reader :data,
 
 end
 
+
   # def load_data(args)
   #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
   #     districts << District.new({name: row[:location]})
