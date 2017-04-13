@@ -26,7 +26,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_it_has_district_repository_by_default
-    assert_equal DistrictRepository, ha.dr.class
+    assert_equal DistrictRepository, ha.district_repository.class
   end
 
   def test_district_participation_rate_varies_with_state

@@ -10,12 +10,9 @@ class DistrictTest < Minitest::Test
 
     def setup
       @dr = DistrictRepository.new
-          dr.load_data({
-            :enrollment => {
-              :kindergarten => "./data/Kindergartners in full-day program.csv"
-            }
-          })
+          dr.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv"}})
     end
+
     def test_district_basics
       district = District.new({:name => "ACADEMY 20"})
       assert_equal "ACADEMY 20", district.name

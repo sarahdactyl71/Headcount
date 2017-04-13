@@ -7,10 +7,7 @@ class HeadcountAnalyst
 
   def initialize(district_repository)
     @district_repository = district_repository
-    @info = {
-  :enrollment => {
-    :kindergarten => "./test/fixtures/Kindergarten_sample_data.csv"
-  }}
+    @info = {:enrollment => {:kindergarten => "./test/fixtures/Kindergarten_sample_data.csv"}}
   end
 
   def load_data(args)
@@ -19,8 +16,8 @@ class HeadcountAnalyst
 
   def data_cleaner ;end
 
-  def kindergarten_participation_rate_variation(district, comparison)
-
+  def kindergarten_participation_rate_variation(district_name, comparison)
+    district_name
   end
 
   def year_and_rate(input)
@@ -31,6 +28,8 @@ class HeadcountAnalyst
       end
     end
     info
+
   end
+
 
 end
