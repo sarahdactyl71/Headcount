@@ -26,14 +26,33 @@ class HeadcountAnalyst
 
   def year_and_rate(input)
     load_data(info)
-    binding.pry
     info = {}
     @data.each do |row|
       if row[:location] == input.upcase
-        info[row[:timeframe].to_i] = row[:data].to_f
+         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    info
+    binding.pry
+    collect_participation(info)
+  end
+
+  def collect_participation(info)
+    participation = []
+    output = info.to_a
+    output.map do |index|
+      index.map do |value|
+        if value.class == Float
+          participation << value
+        end
+      end
+    end
+    participation_average(participation)
+  end
+
+  def participation_average(input)
+    sum = input.reduce(0) { |a, value| a + value }
+    output = sum/(input.count)
+    binding.pry
   end
 
 end
