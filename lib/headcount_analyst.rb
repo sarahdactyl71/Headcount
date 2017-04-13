@@ -22,9 +22,20 @@ class HeadcountAnalyst
 
   def kindergarten_participation_rate_variation(district, comparison)
     comparison = comparison.values[0]
-    year_and_rate(district)
-    year_and_rate(comparison)
-    output = ((year_and_rate(district))/(year_and_rate(comparison)).to_f*1000).floor/1000.0
+    district_info = year_and_rate(district)
+    district = collect_participation(district_info)
+    comparison_info = year_and_rate(comparison)
+    comparison = collect_participation(comparison_info)
+    output = ((district)/(comparison).to_f*1000).floor/1000.0
+    output
+  end
+
+  def kindergarten_participation_rate_variation_trend(district, comparison)
+    comparison = comparison.values[0]
+    district_info = year_and_rate(district)
+    comparison_info = year_and_rate(comparison)
+    output = comparison_info.merge(district_info) { |key, old_val, new_val| ((new_val / old_val).to_f*1000).floor/1000.0 }
+    output
   end
 
   def year_and_rate(input)
@@ -35,7 +46,7 @@ class HeadcountAnalyst
          info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    collect_participation(info)
+    info
   end
 
   def collect_participation(info)
