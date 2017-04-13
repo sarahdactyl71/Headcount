@@ -8,14 +8,10 @@ class HeadcountAnalyst
 
   def initialize(district_repository)
     @district_repository = district_repository
-<<<<<<< HEAD
-    @info = {:enrollment => {:kindergarten => "./test/fixtures/Kindergarten_sample_data.csv"}}
-=======
     @info = {
   :enrollment => {
     :kindergarten => "./data/Kindergartners in full-day program.csv"
   }}
->>>>>>> 9e2aa3f2869061ec0026a5de4d9ac4e4abb1939f
   end
 
   def load_data(args)
@@ -36,7 +32,6 @@ class HeadcountAnalyst
          info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-    info
     collect_participation(info)
   end
 
@@ -56,7 +51,6 @@ class HeadcountAnalyst
   def participation_average(input)
     sum = input.reduce(0) { |a, value| a + value }
     output = sum/(input.count)
-    binding.pry
   end
 
 
