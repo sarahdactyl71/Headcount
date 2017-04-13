@@ -20,11 +20,10 @@ class HeadcountAnalyst
 
   def data_cleaner ;end
 
-  def kindergarten_participation_rate_variation(district, args)
+  def kindergarten_participation_rate_variation(district, comparison)
     year_and_rate(district)
     year_and_rate(comparison)
     output = (year_and_rate(district))/(year_and_rate(comparison))
-    binding.pry
   end
 
   def year_and_rate(input)
