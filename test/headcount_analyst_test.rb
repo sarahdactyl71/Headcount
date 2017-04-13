@@ -30,7 +30,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_district_participation_rate_varies_with_state
-    assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', 'COLORADO')
+    assert_equal 0.766, ha.kindergarten_participation_rate_variation('ACADEMY 20', :against => 'COLORADO')
   end
 
   def test_how_do_district_participation_compare
