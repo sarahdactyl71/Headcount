@@ -18,8 +18,8 @@ attr_reader :name, :kindergarten_participation, :high_school_graduation
   end
 
   def kindergarten_participation_in_year(year)
-    ouput = kindergarten_participation[year]
-    output = (ouput.to_f*1000).floor/1000.0
+    output = kindergarten_participation[year]
+    output = (output.to_f*1000).floor/1000.0
     return output
   end
 
@@ -30,6 +30,9 @@ attr_reader :name, :kindergarten_participation, :high_school_graduation
   end
 
   def graduation_rate_in_year(year)
+    output = high_school_graduation[year]
+    output = (output.to_f*1000).floor/1000.0
+    return output
   end
 
 end
