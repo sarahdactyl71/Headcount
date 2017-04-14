@@ -39,12 +39,8 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_how_do_district_participation_compare_with_state_by_year
-<<<<<<< HEAD
-    assert_equal {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 } , ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO') 
-=======
     variation = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 }
     assert_equal variation, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
->>>>>>> c959315b3851b5a632799232e86ed392be2a3641
   end
 
 end
