@@ -21,18 +21,18 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_instance_of EnrollmentRepository, er
   end
 
-  def test_load_two_datas
-  end
-
   def test_load_data
     enrollment = er.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", enrollment.name
     assert_equal 0.436, enrollment.kindergarten_participation_in_year(2010)
+    assert_equal 0.353, enrollment.kindergarten_participation_in_year(2006)
   end
 
   def test_load_data_two
     enrollment = er.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
+    enrollment2 = er.find_by_name("ACADEMY 20")
     assert_equal "JOHNSTOWN-MILLIKEN RE-5J", enrollment.name
+    assert_equal "ACADEMY 20", enrollment2.name
   end
 
   # def test_what_are_the_kindergarten_years

@@ -6,19 +6,14 @@ class EnrollmentRepository
 
 attr_reader :enrollments
 
-  def initialize
-    @enrollments = []
-  end
-
   def load_data(args)
     args[:enrollment].keys.each do |key|
       if key == :high_school_graduation
         @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      else key == :kindergarten_participation
+      else
         @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
       end
     end
-    # @data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
   end
 
   def find_by_name(input)
