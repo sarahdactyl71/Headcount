@@ -67,4 +67,5 @@ class HeadcountAnalyst
     output = sum/(input.count)
   end
 
+
 end

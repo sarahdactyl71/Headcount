@@ -3,6 +3,7 @@ require_relative 'enrollment'
 require "pry"
 
 class EnrollmentRepository
+
 attr_reader :enrollments
 
   def initialize
@@ -10,16 +11,33 @@ attr_reader :enrollments
   end
 
   def load_data(args)
-    @data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+    args[:enrollment].keys.each do |key|
+      if key == :high_school_graduation
+        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      else key == :kindergarten_participation
+        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      end
+    end
+    # @data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
   end
 
   def find_by_name(input)
-    Enrollment.new({:name => input, :kindergarten_participation => kindergarten_info(input)})
+    Enrollment.new({:name => input, :kindergarten_participation => kindergarten_info(input), :high_school_graduation => high_school_info(input)})
   end
 
   def kindergarten_info(input)
     info = {}
-    @data.each do |row|
+    @kg_key.each do |row|
+      if row[:location] == input.upcase
+        info[row[:timeframe].to_i] = row[:data].to_f
+      end
+    end
+    info
+  end
+
+  def high_school_info(input)
+    info = {}
+    @hs_key.each do |row|
       if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
       end

@@ -25,6 +25,7 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal HeadcountAnalyst, ha.class
   end
 
+
   def test_it_has_district_repository_by_defaul
     assert_equal DistrictRepository, ha.district_repository.class
   end

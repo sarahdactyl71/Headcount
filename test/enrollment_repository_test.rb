@@ -11,7 +11,8 @@ class EnrollmentRepositoryTest < Minitest::Test
     @er = EnrollmentRepository.new
     er.load_data({
         :enrollment => {
-          :kindergarten => "./data/Kindergartners in full-day program.csv"
+          :kindergarten => "./data/Kindergartners in full-day program.csv",
+          :high_school_graduation => "./data/High school graduation rates.csv"
         }
       })
   end
@@ -20,28 +21,31 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_instance_of EnrollmentRepository, er
   end
 
+  def test_load_two_datas
+  end
+
   def test_load_data
     enrollment = er.find_by_name("ACADEMY 20")
     assert_equal "ACADEMY 20", enrollment.name
     assert_equal 0.436, enrollment.kindergarten_participation_in_year(2010)
-    end
+  end
 
   def test_load_data_two
     enrollment = er.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     assert_equal "JOHNSTOWN-MILLIKEN RE-5J", enrollment.name
-    end
+  end
 
-    # def test_what_are_the_kindergarten_years
-    #   skip
-    #   er = EnrollmentRepository.new
-    #   er.load_data({
-    #       :enrollment => {
-    #         :kindergarten => "./data/Kindergartners in full-day program.csv"
-    #       }
-    #     })
-    #   enrollment = er.add_kindergarten_participation_data(dates)
-    #   assert_equal { 2010 => 0.391,
-    #                  2011 => 0.353,
-    #                  2012 => 0.267}, enrollment.dates
-    # end
+  # def test_what_are_the_kindergarten_years
+  #   skip
+  #   er = EnrollmentRepository.new
+  #   er.load_data({
+  #       :enrollment => {
+  #         :kindergarten => "./data/Kindergartners in full-day program.csv"
+  #       }
+  #     })
+  #   enrollment = er.add_kindergarten_participation_data(dates)
+  #   assert_equal { 2010 => 0.391,
+  #                  2011 => 0.353,
+  #                  2012 => 0.267}, enrollment.dates
+  # end
 end

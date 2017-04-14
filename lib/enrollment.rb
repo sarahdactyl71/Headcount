@@ -3,11 +3,13 @@ require 'pry'
 
 class Enrollment
 
-attr_reader :name, :kindergarten_participation
+attr_reader :name, :kindergarten_participation, :high_school_graduation
 
   def initialize(args)
     @name = args[:name]
     @kindergarten_participation = args[:kindergarten_participation]
+    @high_school_graduation = args[:high_school_graduation]
+    binding.pry
   end
 
   def kindergarten_participation_by_year
@@ -20,6 +22,12 @@ attr_reader :name, :kindergarten_participation
     ouput = kindergarten_participation[year]
     output = (ouput.to_f*1000).floor/1000.0
     return output
+  end
+
+  def graduation_rate_by_year
+  end
+
+  def graduation_rate_in_year(year)
   end
 
 end

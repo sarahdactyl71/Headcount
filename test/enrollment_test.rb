@@ -24,4 +24,7 @@ class EnrollmentTest < Minitest::Test
     assert_equal 0.391, en.kindergarten_participation_in_year(2010)
   end
 
+  def test_does_it_pull_in_graduation_rate
+  end
+  
 end
