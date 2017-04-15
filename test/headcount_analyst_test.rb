@@ -43,7 +43,16 @@ class HeadcountAnalystTest < Minitest::Test
     variation = {2004 => 1.257, 2005 => 0.96, 2006 => 1.05, 2007 => 0.992, 2008 => 0.717, 2009 => 0.652, 2010 => 0.681, 2011 => 0.727, 2012 => 0.688, 2013 => 0.694, 2014 => 0.661 }
     assert_equal variation, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
   end
+
   def test_highschool_kindergarten_rates
-    assert_equal 1.234, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+    assert_equal 0.452, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+  end
+
+  def test_if_kg_corrletates_wiht_hs_grad
+    refute ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+  end
+
+  def test_if_statewide_kg_participation_correlates_with_state
+    assert ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
   end
 end

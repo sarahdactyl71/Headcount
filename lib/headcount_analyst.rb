@@ -18,21 +18,6 @@ class HeadcountAnalyst
   }}
   end
 
-  def load_data(args)
-    args[:enrollment].keys.each do |key|
-      if key == :high_school_graduation
-        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      else
-        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      end
-    end
-  end
-  # def load_data(args)
-  #   @data = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-  # end
-
-  def data_cleaner ;end
-
   def kindergarten_participation_rate_variation(district, comparison)
     comparison = comparison.values[0]
     district_info = year_and_rate(district)
@@ -60,6 +45,19 @@ class HeadcountAnalyst
     hs_sum = collect_participation(hs_trend)
     output = truncate((kg_sum/state_sum)/(hs_sum/state_sum))
   end
+
+  def kindergarten_participation_correlates_with_high_school_graduation(district)
+    district = district.values[0]
+    value = kindergarten_participation_against_high_school_graduation(district)
+    if value > 0.6 && value < 1.5
+      true
+    else
+      false
+    end
+  end
+
+  
+
 
   def year_and_rate(input)
     load_data(info)
