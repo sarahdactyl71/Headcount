@@ -1,8 +1,11 @@
 require 'CSV'
 require "pry"
 require_relative "enrollment_repository"
+require_relative "helper_module"
 
 class HeadcountAnalyst
+
+  include Helper
 
   attr_reader :district_repository, :info
 
@@ -36,15 +39,15 @@ class HeadcountAnalyst
     district = collect_participation(district_info)
     comparison_info = year_and_rate(comparison)
     comparison = collect_participation(comparison_info)
-    output = ((district)/(comparison).to_f*1000).floor/1000.0
-    output
+    output = (district/comparison)
+    truncate(output)
   end
 
   def kindergarten_participation_rate_variation_trend(district, comparison)
     comparison = comparison.values[0]
     district_info = year_and_rate(district)
     comparison_info = year_and_rate(comparison)
-    output = comparison_info.merge(district_info) { |key, old_val, new_val| ((new_val / old_val).to_f*1000).floor/1000.0 }
+    output = comparison_info.merge(district_info) { |key, old_val, new_val| truncate((new_val / old_val)) }
     output
   end
 
@@ -55,7 +58,7 @@ class HeadcountAnalyst
     kg_sum = collect_participation(kg_trend)
     hs_trend = year_and_rate_highschool(district)
     hs_sum = collect_participation(hs_trend)
-    output = (((kg_sum/state_sum)/(hs_sum/state_sum)).to_f*1000).floor/1000.0
+    output = truncate((kg_sum/state_sum)/(hs_sum/state_sum))
   end
 
   def year_and_rate(input)
