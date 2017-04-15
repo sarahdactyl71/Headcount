@@ -58,13 +58,29 @@ class HeadcountAnalyst
       hs_sum = hs_statewide_data.map! do |average|
         average/state_sum
       end
-      binding.pry
-    end
-    value = kindergarten_participation_against_high_school_graduation(district)
-    if value > 0.6 && value < 1.5
-      true
+      combined_sum = kg_sum.zip(hs_sum)
+      yes = []
+      no = []
+      combined_sum.each do |sum|
+        outcome = (sum[0] / sum[1])
+        if sum[0] == 0.0 || sum[1] == 0.0
+          next
+        elsif outcome > 0.6 && outcome < 1.5
+          yes << outcome
+        else
+          no << outcome
+        end
+      end
+      if (yes.count/no.count) < 0.7
+        false
+      end
     else
-      false
+      value = kindergarten_participation_against_high_school_graduation(district)
+      if value > 0.6 && value < 1.5
+        true
+      else
+        false
+      end
     end
   end
 
