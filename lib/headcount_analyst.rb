@@ -46,6 +46,19 @@ class HeadcountAnalyst
     output = truncate((kg_sum/state_sum)/(hs_sum/state_sum))
   end
 
+  def kindergarten_participation_correlates_with_high_school_graduation(district)
+    district = district.values[0]
+    value = kindergarten_participation_against_high_school_graduation(district)
+    if value > 0.6 && value < 1.5
+      true
+    else
+      false
+    end
+  end
+
+  
+
+
   def year_and_rate(input)
     load_data(info)
     info = {}
