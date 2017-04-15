@@ -32,11 +32,15 @@ attr_reader :enrollments
 
   def high_school_info(input)
     info = {}
+    if @hs_key == nil
+      kindergarten_info(input)
+    else
     @hs_key.each do |row|
       if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
+  end
     info
   end
 
