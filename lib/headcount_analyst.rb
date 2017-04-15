@@ -21,9 +21,9 @@ class HeadcountAnalyst
 
   def kindergarten_participation_rate_variation(district, comparison)
     comparison = comparison.values[0]
-    district_info = year_and_rate(district)
+    district_info = year_and_rate_kindergarten(district)
     district = collect_participation(district_info)
-    comparison_info = year_and_rate(comparison)
+    comparison_info = year_and_rate_kindergarten(comparison)
     comparison = collect_participation(comparison_info)
     output = (district/comparison)
     truncate(output)
@@ -31,16 +31,16 @@ class HeadcountAnalyst
 
   def kindergarten_participation_rate_variation_trend(district, comparison)
     comparison = comparison.values[0]
-    district_info = year_and_rate(district)
-    comparison_info = year_and_rate(comparison)
+    district_info = year_and_rate_kindergarten(district)
+    comparison_info = year_and_rate_kindergarten(comparison)
     output = comparison_info.merge(district_info) { |key, old_val, new_val| truncate((new_val / old_val)) }
     output
   end
 
   def kindergarten_participation_against_high_school_graduation(district)
-    state_trend = year_and_rate('Colorado')
+    state_trend = year_and_rate_kindergarten('Colorado')
     state_sum = collect_participation(state_trend)
-    kg_trend = year_and_rate(district)
+    kg_trend = year_and_rate_kindergarten(district)
     kg_sum = collect_participation(kg_trend)
     hs_trend = year_and_rate_highschool(district)
     hs_sum = collect_participation(hs_trend)
@@ -50,7 +50,15 @@ class HeadcountAnalyst
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     district = district.values[0]
     if district == 'STATEWIDE'
-      statewide_data
+      state_trend = year_and_rate_kindergarten('Colorado')
+      state_sum = collect_participation(state_trend)
+      kg_sum = kg_statewide_data.map! do |average|
+        average/state_sum
+      end
+      hs_sum = hs_statewide_data.map! do |average|
+        average/state_sum
+      end
+      binding.pry
     end
     value = kindergarten_participation_against_high_school_graduation(district)
     if value > 0.6 && value < 1.5
@@ -60,7 +68,7 @@ class HeadcountAnalyst
     end
   end
 
-  def statewide_data
+  def kg_statewide_data
     load_data(info)
     all_kg_districts = []
     @kg_key.each do |row|
@@ -69,13 +77,31 @@ class HeadcountAnalyst
       end
       all_kg_districts << row[:location]
     end
-    all_kg_districts.uniq.map! do |district|
-      year_and_rate(district)
+    year_data = all_kg_districts.uniq.map! do |district|
+      year_and_rate_kindergarten(district)
     end
-    binding.pry
+    year_data_sum = year_data.map! do |hash|
+      collect_participation(hash)
+    end
   end
 
-  def year_and_rate(input)
+  def hs_statewide_data
+    all_hs_districts = []
+    @hs_key.each do |row|
+      if row[:location] == "Colorado"
+        next
+      end
+      all_hs_districts << row[:location]
+    end
+    year_data = all_hs_districts.uniq.map! do |district|
+      year_and_rate_highschool(district)
+    end
+    year_data_sum = year_data.map! do |hash|
+      collect_participation(hash)
+    end
+  end
+
+  def year_and_rate_kindergarten(input)
     load_data(info)
     info = {}
     @kg_key.each do |row|
