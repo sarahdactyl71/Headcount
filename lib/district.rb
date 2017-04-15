@@ -2,7 +2,8 @@ require "pry"
 require_relative 'district_repository'
 
 class District
-attr_reader :name, :repo
+attr_reader :name,
+            :repo
 
   def initialize(args)
     @name = args[:name]

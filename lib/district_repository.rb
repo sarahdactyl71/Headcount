@@ -13,16 +13,6 @@ attr_reader :data,
     @enrollment_repository = EnrollmentRepository.new
   end
 
-  # def load_data(args)
-  #   args[:enrollment].keys.each do |key|
-  #     if key == :high_school_graduation
-  #       @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-  #     else
-  #       @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-  #     end
-  #   end
-  # end
-
   def load_data(args)
     data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
     enrollment_repository.load_data(args)

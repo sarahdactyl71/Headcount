@@ -7,7 +7,8 @@ class HeadcountAnalyst
 
   include Helper
 
-  attr_reader :district_repository, :info
+  attr_reader :district_repository,
+              :info
 
   def initialize(district_repository)
     @district_repository = district_repository
@@ -48,6 +49,9 @@ class HeadcountAnalyst
 
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     district = district.values[0]
+    if district == 'STATEWIDE'
+      statewide_data
+    end
     value = kindergarten_participation_against_high_school_graduation(district)
     if value > 0.6 && value < 1.5
       true
@@ -56,8 +60,20 @@ class HeadcountAnalyst
     end
   end
 
-  
-
+  def statewide_data
+    load_data(info)
+    all_kg_districts = []
+    @kg_key.each do |row|
+      if row[:location] == "Colorado"
+        next
+      end
+      all_kg_districts << row[:location]
+    end
+    all_kg_districts.uniq.map! do |district|
+      year_and_rate(district)
+    end
+    binding.pry
+  end
 
   def year_and_rate(input)
     load_data(info)
