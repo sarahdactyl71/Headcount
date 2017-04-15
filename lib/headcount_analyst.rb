@@ -10,13 +10,23 @@ class HeadcountAnalyst
     @district_repository = district_repository
     @info = {
   :enrollment => {
-    :kindergarten => "./data/Kindergartners in full-day program.csv"
+    :kindergarten => "./data/Kindergartners in full-day program.csv",
+    :high_school_graduation => "./data/High school graduation rates.csv"
   }}
   end
 
   def load_data(args)
-    @data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+    args[:enrollment].keys.each do |key|
+      if key == :high_school_graduation
+        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      else
+        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      end
+    end
   end
+  # def load_data(args)
+  #   @data = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+  # end
 
   def data_cleaner ;end
 
@@ -38,10 +48,31 @@ class HeadcountAnalyst
     output
   end
 
+  def kindergarten_participation_against_high_school_graduation(district)
+    state_trend = year_and_rate('Colorado')
+    state_sum = collect_participation(state_trend)
+    kg_trend = year_and_rate(district)
+    kg_sum = collect_participation(kg_trend)
+    hs_trend = year_and_rate_highschool(district)
+    hs_sum = collect_participation(hs_trend)
+    output = (((kg_sum/state_sum)/(hs_sum/state_sum)).to_f*1000).floor/1000.0
+  end
+
   def year_and_rate(input)
     load_data(info)
     info = {}
-    @data.each do |row|
+    @kg_key.each do |row|
+      if row[:location].upcase == input.upcase
+         info[row[:timeframe].to_i] = row[:data].to_f
+      end
+    end
+    info
+  end
+
+  def year_and_rate_highschool(input)
+    load_data(info)
+    info = {}
+    @hs_key.each do |row|
       if row[:location].upcase == input.upcase
          info[row[:timeframe].to_i] = row[:data].to_f
       end
