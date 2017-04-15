@@ -44,6 +44,6 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal variation, ha.kindergarten_participation_rate_variation_trend('ACADEMY 20', :against => 'COLORADO')
   end
   def test_highschool_kindergarten_rates
-    assert_equal 1.234, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+    assert_equal 0.452, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
   end
 end

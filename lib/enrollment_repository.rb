@@ -1,20 +1,13 @@
 require 'CSV'
 require_relative 'enrollment'
+require_relative 'helper_module'
 require "pry"
 
 class EnrollmentRepository
 
-attr_reader :enrollments
+  include Helper
 
-  def load_data(args)
-    args[:enrollment].keys.each do |key|
-      if key == :high_school_graduation
-        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      else
-        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      end
-    end
-  end
+attr_reader :enrollments
 
   def find_by_name(input)
     Enrollment.new({:name => input, :kindergarten_participation => kindergarten_info(input), :high_school_graduation => high_school_info(input)})
@@ -51,6 +44,3 @@ end
   #     enrollments << Enrollment.new({name: row[:location], :kindergarten_participation => nil})
   #   end
   # end
-
-# binding.pry
-# ""
