@@ -1,7 +1,10 @@
 require_relative "enrollment_repository"
+require_relative "helper_module"
 require 'pry'
 
 class Enrollment
+
+  include Helper
 
 attr_reader :name, :kindergarten_participation, :high_school_graduation
 
@@ -13,26 +16,24 @@ attr_reader :name, :kindergarten_participation, :high_school_graduation
 
   def kindergarten_participation_by_year
     kindergarten_participation.each_pair do |key, value|
-      kindergarten_participation[key] = (value.to_f*1000).floor/1000.0
+      kindergarten_participation[key] = truncate(value)
     end
   end
 
   def kindergarten_participation_in_year(year)
     output = kindergarten_participation[year]
-    output = (output.to_f*1000).floor/1000.0
-    return output
+    return truncate(output)
   end
 
   def graduation_rate_by_year
     high_school_graduation.each_pair do |key, value|
-      high_school_graduation[key] = (value.to_f*1000).floor/1000.0
+      high_school_graduation[key] = truncate(value)
     end
   end
 
   def graduation_rate_in_year(year)
     output = high_school_graduation[year]
-    output = (output.to_f*1000).floor/1000.0
-    return output
+    return truncate(output)
   end
 
 end
