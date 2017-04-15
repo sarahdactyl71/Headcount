@@ -28,6 +28,14 @@ class EnrollmentRepositoryTest < Minitest::Test
     assert_equal 0.353, enrollment.kindergarten_participation_in_year(2006)
   end
 
+  def test_load_grads
+    enrollment = er.find_by_name("ACADEMY 20")
+    assert_equal "ACADEMY 20", enrollment.name
+    info = {2010=>0.895, 2011=>0.895, 2012=>0.889, 2013=>0.913, 2014=>0.898}
+    assert_equal info, enrollment.graduation_rate_by_year
+    assert_equal 0.895, enrollment.graduation_rate_in_year(2010)
+  end
+
   def test_load_data_two
     enrollment = er.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     enrollment2 = er.find_by_name("ACADEMY 20")
