@@ -20,20 +20,18 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_rate_variation(district, comparison)
-    comparison = comparison.values[0]
-    district_info = year_and_rate_kindergarten(district)
-    district = collect_participation(district_info)
-    comparison_info = year_and_rate_kindergarten(comparison)
-    comparison = collect_participation(comparison_info)
-    truncate(district/comparison)
+    district = collect_participation(year_and_rate_kindergarten(district))
+    truncate(district/comparison_kindergarden(district, comparison))
   end
 
   def kindergarten_participation_rate_variation_trend(district, comparison)
-    comparison = comparison.values[0]
     district_info = year_and_rate_kindergarten(district)
-    comparison_info = year_and_rate_kindergarten(comparison)
-    output = comparison_info.merge(district_info) { |key, old_val, new_val| truncate((new_val / old_val)) }
-    output
+    comparison_info = year_and_rate_kindergarten(comparison.values[0])
+    comparison_info.merge(district_info) { |key, old_val, new_val| truncate((new_val / old_val)) }
+  end
+
+  def comparison_kindergarden(district, comparison)
+    collect_participation(year_and_rate_kindergarten(comparison.values[0]))
   end
 
   def kindergarten_participation_against_high_school_graduation(district)
@@ -55,37 +53,46 @@ class HeadcountAnalyst
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     district = district.values[0]
     if district == 'STATEWIDE'
-      state_trend = year_and_rate_kindergarten('Colorado')
-      state_sum = collect_participation(state_trend)
-      kg_sum = kg_statewide_data.map! do |average|
-        average/state_sum
-      end
-      hs_sum = hs_statewide_data.map! do |average|
-        average/state_sum
-      end
-      combined_sum = kg_sum.zip(hs_sum)
-      yes = []
-      no = []
-      combined_sum.each do |sum|
-        outcome = (sum[0] / sum[1])
-        if sum[0] == 0.0 || sum[1] == 0.0
-          next
-        elsif outcome > 0.6 && outcome < 1.5
-          yes << outcome
-        else
-          no << outcome
-        end
-      end
-      if (yes.count/no.count) < 0.7
-        false
-      end
+      create_yes_and_no_arrays
     else
-      value = kindergarten_participation_against_high_school_graduation(district)
-      if value > 0.6 && value < 1.5
-        true
-      else
-        false
+      single_district_correlation(district)
+    end
+  end
+
+  def create_yes_and_no_arrays
+    yes = []
+    no = []
+    kg_and_hs_averages.each do |sum|
+    outcome = (sum[0] / sum[1])
+      if sum[0] == 0.0 || sum[1] == 0.0
+        next
+        elsif outcome > 0.6 && outcome < 1.5
+        yes << outcome
+        else
+        no << outcome
       end
+    end
+    if (yes.count/no.count) < 0.7
+      false
+    end
+  end
+
+  def kg_and_hs_averages
+    kg_avg = kg_statewide_data.map! do |average|
+      average/state_sum
+    end
+    hs_avg = hs_statewide_data.map! do |average|
+      average/state_sum
+    end
+    kg_avg.zip(hs_avg)
+  end
+
+  def single_district_correlation(district)
+    value = kindergarten_participation_against_high_school_graduation(district)
+    if value > 0.6 && value < 1.5
+      true
+    else
+      false
     end
   end
 
