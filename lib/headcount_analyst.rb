@@ -41,20 +41,16 @@ class HeadcountAnalyst
   end
 
   def state_sum
-    state_trend = year_and_rate_kindergarten('Colorado')
-    collect_participation(state_trend)
+    collect_participation(year_and_rate_kindergarten('Colorado'))
   end
 
   def kg_sum(district)
-    kg_trend = year_and_rate_kindergarten(district)
-    collect_participation(kg_trend)
+    collect_participation(year_and_rate_kindergarten(district))
   end
 
   def hs_sum(district)
-    hs_trend = year_and_rate_highschool(district)
-    collect_participation(hs_trend)
+    collect_participation(year_and_rate_highschool(district))
   end
-
 
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     district = district.values[0]
