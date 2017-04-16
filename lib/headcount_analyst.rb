@@ -45,13 +45,21 @@ class HeadcountAnalyst
     elsif district.class == String
       single_district_correlation(district)
     elsif district.count > 1
-        array = []
+        kg_vs_hs = []
         district.each do |name|
-          array << kindergarten_participation_against_high_school_graduation(name)
+          kg_vs_hs << kindergarten_participation_against_high_school_graduation(name)
         end
-        total_average = participation_average(array)/kg_state_sum
-        if total_average > 0.6 && total_average < 1.5
+        final = kg_vs_hs.map! do |number|
+          if number > 0.6 && number < 1.5
+            number
+          else
+            kg_vs_hs.delete(number)
+          end
+        end
+        if ((final.count/kg_vs_hs.count)) >= 0.70
           true
+        else
+          false
         end
     end
   end
