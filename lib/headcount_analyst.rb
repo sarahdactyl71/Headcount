@@ -13,10 +13,10 @@ class HeadcountAnalyst
   def initialize(district_repository)
     @district_repository = district_repository
     @info = {
-  :enrollment => {
+    :enrollment => {
     :kindergarten => "./data/Kindergartners in full-day program.csv",
     :high_school_graduation => "./data/High school graduation rates.csv"
-  }}
+    }}
   end
 
   def kindergarten_participation_rate_variation(district, comparison)
@@ -25,8 +25,7 @@ class HeadcountAnalyst
     district = collect_participation(district_info)
     comparison_info = year_and_rate_kindergarten(comparison)
     comparison = collect_participation(comparison_info)
-    output = (district/comparison)
-    truncate(output)
+    truncate(district/comparison)
   end
 
   def kindergarten_participation_rate_variation_trend(district, comparison)
@@ -38,14 +37,24 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_against_high_school_graduation(district)
-    state_trend = year_and_rate_kindergarten('Colorado')
-    state_sum = collect_participation(state_trend)
-    kg_trend = year_and_rate_kindergarten(district)
-    kg_sum = collect_participation(kg_trend)
-    hs_trend = year_and_rate_highschool(district)
-    hs_sum = collect_participation(hs_trend)
-    output = truncate((kg_sum/state_sum)/(hs_sum/state_sum))
+    truncate((kg_sum(district)/state_sum)/(hs_sum(district)/state_sum))
   end
+
+  def state_sum
+    state_trend = year_and_rate_kindergarten('Colorado')
+    collect_participation(state_trend)
+  end
+
+  def kg_sum(district)
+    kg_trend = year_and_rate_kindergarten(district)
+    collect_participation(kg_trend)
+  end
+
+  def hs_sum(district)
+    hs_trend = year_and_rate_highschool(district)
+    collect_participation(hs_trend)
+  end
+
 
   def kindergarten_participation_correlates_with_high_school_graduation(district)
     district = district.values[0]
