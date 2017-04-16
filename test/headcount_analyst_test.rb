@@ -55,4 +55,10 @@ class HeadcountAnalystTest < Minitest::Test
   def test_if_statewide_kg_participation_correlates_with_state
     refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
   end
+
+  def test_if_we_can_have_more_than_one_district
+    assert ha.kindergarten_participation_correlates_with_high_school_graduation(
+    :across => ['ACADEMY 20', 'ADAMS COUNTY 14', 'BRIGHTON 27J', 'CHERRY CREEK 5'])
+  end
+
 end
