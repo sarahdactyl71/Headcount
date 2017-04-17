@@ -13,16 +13,42 @@ include Helper
 
 
   def third_grade_info(input)
+    key = @tg_key
+    compiler = compiler (input, key)
+    hash_creator(compiler)
+  end
+
+  def eighth_grade_info(input)
+    key = @eg_key
+    compiler = compiler(input, key)
+    hash_creator(compiler)
+  end
+
+  def compiler(input, key)
     compiler = []
-    @tg_key.select do |row|
+    key.select do |row|
       if row[:location] == input.upcase
         compiler << row
       end
     end
-    hash_creator(compiler)
   end
 
   def hash_creator(input)
+    years = []
+    info = {}
+    output = {}
+    input.select do |row|
+      years << row[:timeframe].to_i
+    end
+    years.uniq.each do |year|
+      input.map do |row|
+        if row[:timeframe].to_i == year
+        info[row[:score]] = row[:data]
+      end
+    end
+    output.merge!({year => info})
+    end
     binding.pry
   end
+
 end
