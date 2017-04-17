@@ -11,7 +11,6 @@ include Helper
     StateWideTest.new({:name => input, :third_grade => third_grade_info(input), :eighth_grade => eighth_grade_info(input)})
   end
 
-
   def third_grade_info(input)
     key = @tg_key
     compiler = compiler (input, key)
@@ -43,12 +42,11 @@ include Helper
     years.uniq.each do |year|
       input.map do |row|
         if row[:timeframe].to_i == year
-        info[row[:score]] = row[:data]
+        info[row[:score].downcase.to_sym] = row[:data]
       end
     end
     output.merge!({year => info})
-    end
-    binding.pry
+  end
   end
 
 end
