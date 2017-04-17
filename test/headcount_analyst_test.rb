@@ -49,7 +49,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_if_kg_corrletates_wiht_hs_grad
-    refute ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
+    assert ha.kindergarten_participation_correlates_with_high_school_graduation(for: 'ACADEMY 20')
   end
 
   def test_if_statewide_kg_participation_correlates_with_state
