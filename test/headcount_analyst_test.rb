@@ -45,7 +45,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_highschool_kindergarten_rates
-    assert_equal 0.452, ha.kindergarten_participation_against_high_school_graduation('ACADEMY 20')
+    assert_equal 0.548, ha.kindergarten_participation_against_high_school_graduation('MONTROSE COUNTY RE-1J')
   end
 
   def test_if_kg_corrletates_wiht_hs_grad

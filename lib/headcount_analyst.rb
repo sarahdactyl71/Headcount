@@ -35,7 +35,7 @@ class HeadcountAnalyst
   end
 
   def kindergarten_participation_against_high_school_graduation(district)
-    truncate((kg_sum(district)/state_sum)/(hs_sum(district)/state_sum))
+    truncate((kg_sum(district)/kg_state_sum)/(hs_sum(district)/hs_state_sum))
   end
 
   def kindergarten_participation_correlates_with_high_school_graduation(district)
@@ -45,13 +45,21 @@ class HeadcountAnalyst
     elsif district.class == String
       single_district_correlation(district)
     elsif district.count > 1
-        array = []
+        kg_vs_hs = []
         district.each do |name|
-          array << kindergarten_participation_against_high_school_graduation(name)
+          kg_vs_hs << kindergarten_participation_against_high_school_graduation(name)
         end
-        total_average = participation_average(array)/state_sum
-        if total_average > 0.6 && total_average < 1.5
+        final = kg_vs_hs.map! do |number|
+          if number > 0.6 && number < 1.5
+            number
+          else
+            kg_vs_hs.delete(number)
+          end
+        end
+        if ((final.count/kg_vs_hs.count)) >= 0.70
           true
+        else
+          false
         end
     end
   end
@@ -76,10 +84,10 @@ class HeadcountAnalyst
 
   def kg_and_hs_averages
     kg_avg = kg_statewide_data.map! do |average|
-      average/state_sum
+      average/kg_state_sum
     end
     hs_avg = hs_statewide_data.map! do |average|
-      average/state_sum
+      average/hs_state_sum
     end
     kg_avg.zip(hs_avg)
   end
@@ -166,8 +174,12 @@ class HeadcountAnalyst
     output = sum/(input.count)
   end
 
-  def state_sum
+  def kg_state_sum
     collect_participation(year_and_rate_kindergarten('Colorado'))
+  end
+
+  def hs_state_sum
+    collect_participation(year_and_rate_highschool('Colorado'))
   end
 
   def kg_sum(district)
