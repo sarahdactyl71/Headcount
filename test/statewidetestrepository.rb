@@ -29,18 +29,7 @@ class StateWideTestRepositoryTest < Minitest::Test
     assert_instance_of StateWideTest, std.find_by_name('ACADEMY 20')
   end
 
-  def test_what_is_third_grade_info_for_district
-    skip
-    assert_equal 123, std.third_grade_info('ACADEMY 20')
-  end
-
-  def test_what_is_eight_grade_info_for_district
-    skip
-    assert_equal 123, std.eighth_grade_info('ACADEMY 20')
-  end
-
   def test_proficient_by_grades_gives_correct_hash
-    skip
     proficiencies = { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
      2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
      2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
@@ -51,4 +40,7 @@ class StateWideTestRepositoryTest < Minitest::Test
    }
    assert_equal proficiencies, str.proficient_by_grade(3)
   end
+
+
+
 end

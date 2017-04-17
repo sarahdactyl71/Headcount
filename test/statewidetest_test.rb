@@ -5,7 +5,8 @@ require './lib/statewidetestrepository'
 require './lib/statewidetest'
 
 class StateWideTestTest < Minitest::Test
-  attr_reader :std
+  attr_reader :std,
+              :state_test
 
   def setup
     @std = StateWideTestRepository.new
@@ -18,6 +19,7 @@ class StateWideTestTest < Minitest::Test
         :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
       }
       })
+      @state_test = std.find_by_name('ACADEMY 20')
   end
 
     def test_find_name
@@ -32,4 +34,14 @@ class StateWideTestTest < Minitest::Test
         }
         assert_equal output, state_test.proficiency_by_grade(3)
     end
+
+    def test_proficient_by_race_retruns_correct_hash
+      output = { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
+     2012 => {math: 0.818, reading: 0.893, writing: 0.808},
+     2013 => {math: 0.805, reading: 0.901, writing: 0.810},
+     2014 => {math: 0.800, reading: 0.855, writing: 0.789},
+      }
+      assert_equal output, state_test.proficient_by_race_or_ethnicity(:asian)
+    end
+
   end
