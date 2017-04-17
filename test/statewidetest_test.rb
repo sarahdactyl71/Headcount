@@ -26,7 +26,7 @@ class StateWideTestTest < Minitest::Test
           2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
           2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},
           2011 => {:math => 0.819, :reading => 0.867, :writing => 0.678},
-          2012 => {:math => 0.830, :reading => 0.870, :writing => 0.655},
+          2012 => {:math => 0.83, :reading => 0.87, :writing => 0.655},
           2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
           2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
         }

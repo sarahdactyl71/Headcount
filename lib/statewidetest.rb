@@ -42,20 +42,18 @@ class StateWideTest
   end
 
   def hash_creator(years, compiled_info)
-    info = {}
     output = {}
     years.uniq.each do |year|
+      info = {}
       compiled_info.map do |row|
         if row[:timeframe].to_i == year
-        info[row[:score].downcase.to_sym] = row[:data].to_f
+        info[row[:score].downcase.to_sym] = truncate(row[:data])
         end
       end
-      # output[year] = info
-      # output.store(year, info)
       to_merge = { year => info }
       output.merge!(to_merge)
     end
-    binding.pry
+    output
   end
 
 end
