@@ -26,6 +26,32 @@ class StateWideTest
     hash_creator(hash_years(compiler), compiler)
   end
 
+  def proficient_by_race_or_ethnicity(race)
+    data = csap_compiler(race)
+    csap_hash(data)
+  end
+
+  def csap_compiler(race)
+    csap = []
+    keys = [@math, @reading, @writing]
+    keys.each_with_index do |data, index|
+      data.select do |row|
+        if row[1].downcase == race.to_s && row[:location] == @name.upcase
+          csap << [row, index]
+        end
+      end
+    end
+    csap
+  end
+
+  def csap_hash(data)
+    results = data.group_by do  |x|
+     x.to_s.split.to_a[4]
+    end
+    binding.pry
+  end
+
+
   def compiler(input, key)
     compiler = []
     key.select do |row|
