@@ -6,9 +6,12 @@ require "pry"
 class EnrollmentRepository
 
   include Helper
-  
+
   def find_by_name(input)
-    Enrollment.new({:name => input, :kindergarten_participation => kindergarten_info(input), :high_school_graduation => high_school_info(input)})
+    Enrollment.new({:name => input,
+                      :kindergarten_participation => kindergarten_info(input),
+                      :high_school_graduation => high_school_info(input)
+                      })
   end
 
   def kindergarten_info(input)

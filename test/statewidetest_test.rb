@@ -18,7 +18,6 @@ class StateWideTestTest < Minitest::Test
         :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
       }
       })
-      @str = std.find_by_name("ACADEMY 20")
   end
 
     def test_find_name
