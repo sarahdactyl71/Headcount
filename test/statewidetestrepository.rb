@@ -24,6 +24,6 @@ class StateWideTestRepositoryTest < Minitest::Test
   end
 
   def test_find_name
-    std.find_by_name('ACADEMY 20')
+    assert_instance_of StateWideTest, std.find_by_name('ACADEMY 20')
   end
 end
