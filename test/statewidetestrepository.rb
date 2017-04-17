@@ -22,4 +22,8 @@ class StateWideTestRepositoryTest < Minitest::Test
   def test_init
     assert_instance_of StateWideTestRepository, std
   end
+
+  def test_find_name
+    std.find_by_name('ACADEMY 20')
+  end
 end
