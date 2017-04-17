@@ -44,9 +44,9 @@ include Helper
       input.map do |row|
         if row[:timeframe].to_i == year
         info[row[:score]] = row[:data]
-        output = {year => info}
       end
     end
+    output.merge!({year => info})
     end
     binding.pry
   end
