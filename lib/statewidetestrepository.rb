@@ -1,6 +1,7 @@
 require 'CSV'
 require "pry"
 require_relative "enrollment_repository"
+require_relative "statewidetest"
 require_relative "helper_module"
 
 class StateWideTestRepository
@@ -12,13 +13,16 @@ include Helper
 
 
   def third_grade_info(input)
-    info = {}
-    @tg_key.each do |row|
+    compiler = []
+    @tg_key.select do |row|
       if row[:location] == input.upcase
-        info[row[:timeframe].to_i] = row[:data].to_f
+        compiler << row
       end
     end
-    info
+    hash_creator(compiler)
   end
 
+  def hash_creator(input)
+    binding.pry
+  end
 end
