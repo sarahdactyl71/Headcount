@@ -11,6 +11,9 @@ class StateWideTest
     @name = args[:name]
     @third_grade_info = args[:third_grade_info]
     @eighth_grade_info = args[:eighth_grade_info]
+    @math = args[:math]
+    @reading = args[:reading]
+    @writing = args[:writing]
   end
 
   def proficiency_by_grade(input)
