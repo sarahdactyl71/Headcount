@@ -6,7 +6,13 @@ module Helper
               :eg_key,
               :math_key,
               :read_key,
-              :write_key
+              :write_key,
+              :mhi_key,
+              :cip_key,
+              :forpl_key,
+              :ti_key,
+              :write_key,
+              :name_key
 
   def truncate(value)
     (value.to_f*1000).floor/1000.0
@@ -23,6 +29,8 @@ module Helper
           @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
         end
       end
+    elsif args.keys[0] == :economic_profile
+      load_economic_profile(args)
     end
   end
 
@@ -43,6 +51,27 @@ module Helper
       elsif key == :writing
         write_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
         @write_key = write_key.to_a
+      end
+    end
+  end
+
+  def load_economic_profile(args)
+    args[:economic_profile].keys.each do |key|
+      if key == :median_household_income
+        mhi_key = CSV.open(args[:economic_profile][key], headers: true, header_converters: :symbol)
+        @mhi_key = mhi_key.to_a
+      elsif key == :children_in_poverty
+        cip_key = CSV.open(args[:economic_profile][key], headers: true, header_converters: :symbol)
+        @cip_key = cip_key.to_a
+      elsif key == :free_or_reduced_price_lunch
+        forpl_key = CSV.open(args[:economic_profile][key], headers: true, header_converters: :symbol)
+        @forpl_key = forpl_key.to_a
+      elsif key == :title_i
+        ti_key = CSV.open(args[:economic_profile][key], headers: true, header_converters: :symbol)
+        @ti_key = ti_key.to_a
+      elsif key == :name
+        name_key = CSV.open(args[:economic_profile][key], headers: true, header_converters: :symbol)
+        @name_key = name_key.to_a
       end
     end
   end
