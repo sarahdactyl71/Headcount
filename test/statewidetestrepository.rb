@@ -3,7 +3,7 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/statewide_test'
 
-class StateWideTestRepositoryTest < Minitest::Test
+class StatewideTestRepositoryTest < Minitest::Test
   attr_reader :std,
               :str
 
@@ -26,7 +26,7 @@ class StateWideTestRepositoryTest < Minitest::Test
   end
 
   def test_find_name
-    assert_instance_of StateWideTest, std.find_by_name('ACADEMY 20')
+    assert_instance_of StatewideTest, std.find_by_name('ACADEMY 20')
   end
 
   def test_proficient_by_grades_gives_correct_hash

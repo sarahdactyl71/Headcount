@@ -1,5 +1,6 @@
 require "pry"
 require_relative 'district_repository'
+require_relative 'state_wide_test'
 
 class District
 attr_reader :name,
@@ -16,7 +17,10 @@ attr_reader :name,
     distrepo.enrollment_repository.find_by_name(current_name)
   end
 
-end
+  def statewide_test
+    distrepo = repo
+    current_name = name
+    distrepo.statewide_test.find_by_name(current_name)
+  end
 
-# binding.pry
-# ""
+end
