@@ -23,6 +23,7 @@ attr_reader :data,
     data.each do |row|
       districts << District.new({name: row[:location], repo: self})
     end
+    binding.pry
   end
 
   def find_by_name(input)

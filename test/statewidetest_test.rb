@@ -1,8 +1,8 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/statewidetestrepository'
-require './lib/statewidetest'
+require './lib/statewide_test'
+require './lib/state_wide_test'
 
 class StateWideTestTest < Minitest::Test
   attr_reader :std,
@@ -44,8 +44,9 @@ class StateWideTestTest < Minitest::Test
       assert_equal output, state_test.proficient_by_race_or_ethnicity(:asian)
     end
 
-    def test_proficient_for_subject_by_grade_in_year
+    def test_proficient_for_subject_by_grade_in_year_and_race
       assert_equal 0.857, state_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+      assert_equal 0.818, state_test.proficient_for_subject_by_race_in_year(:math, :asian, 2012)
     end
 
   end

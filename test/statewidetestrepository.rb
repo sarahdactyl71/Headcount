@@ -1,14 +1,14 @@
 gem 'minitest'
 require 'minitest/autorun'
 require 'minitest/pride'
-require './lib/statewidetestrepository'
+require './lib/statewide_test'
 
 class StateWideTestRepositoryTest < Minitest::Test
   attr_reader :std,
               :str
 
   def setup
-    @std = StateWideTestRepository.new
+    @std = StatewideTestRepository.new
     std.load_data({
       :statewide_testing => {
         :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
@@ -22,7 +22,7 @@ class StateWideTestRepositoryTest < Minitest::Test
   end
 
   def test_init
-    assert_instance_of StateWideTestRepository, std
+    assert_instance_of StatewideTestRepository, std
   end
 
   def test_find_name
