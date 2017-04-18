@@ -16,13 +16,17 @@ class StateWideTest
     @writing = args[:writing]
   end
 
-  def proficiency_by_grade(input)
+  def what_key?(input)
     if input == 3
       @key = @third_grade_info
     elsif  input == 8
       @key = @eighth_grade_info
     end
-    compiler = compiler(input, @key)
+  end
+
+  def proficiency_by_grade(input)
+    what_key?(input)
+    compiler = compiler(@key)
     hash_creator(hash_years(compiler), compiler)
   end
 
@@ -31,6 +35,20 @@ class StateWideTest
     @compiled_reading = csap_compiler(race, @reading)
     @compiled_writing = csap_compiler(race, @writing)
     csap_hash(csap_years(@compiled_math))
+  end
+
+  def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    what_key?(grade)
+    compiler = compiler(@key)
+    info_for_subject_by_grade(compiler, subject, year)
+  end
+
+  def info_for_subject_by_grade(data, subject, year)
+    data.map do |row|
+      if row[:score].downcase == subject.to_s && row[:timeframe].to_i == year
+        return row[:data].to_f
+      end
+    end
   end
 
   def csap_hash(years)
@@ -107,14 +125,14 @@ class StateWideTest
     output
   end
 
-  def compiler(input, key)
-    compiler = []
+  def compiler(key)
+  compiler = []
     key.select do |row|
       if row[:location] == @name.upcase
         compiler << row
       end
     end
-    compiler
+  return compiler
   end
 
   def hash_years(input)

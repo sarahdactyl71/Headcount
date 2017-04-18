@@ -44,4 +44,8 @@ class StateWideTestTest < Minitest::Test
       assert_equal output, state_test.proficient_by_race_or_ethnicity(:asian)
     end
 
+    def test_proficient_for_subject_by_grade_in_year
+      assert_equal 0.857, state_test.proficient_for_subject_by_grade_in_year(:math, 3, 2008)
+    end
+
   end
