@@ -9,7 +9,7 @@ class StateWideTestTest < Minitest::Test
               :state_test
 
   def setup
-    @std = StateWideTestRepository.new
+    @std = StatewideTestRepository.new
     std.load_data({
       :statewide_testing => {
         :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
@@ -32,7 +32,7 @@ class StateWideTestTest < Minitest::Test
           2013 => {:math => 0.855, :reading => 0.859, :writing => 0.668},
           2014 => {:math => 0.834, :reading => 0.831, :writing => 0.639}
         }
-        assert_equal output, state_test.proficiency_by_grade(3)
+        assert_equal output, state_test.proficient_by_grade(3)
     end
 
     def test_proficient_by_race_returns_correct_hash
