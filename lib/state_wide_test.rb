@@ -1,8 +1,9 @@
 require_relative "statewide_test"
 require_relative "helper_module"
+require_relative "error"
 require 'pry'
 
-class StateWideTest
+class StatewideTest
   include Helper
   attr_reader :name,
               :key
@@ -56,9 +57,9 @@ class StateWideTest
     end
   end
 
-  def is_output_valid(input)
-    if input == 0.0
-      return puts "N/A"
+  def is_output_valid?(input)
+    if input == 0.0 || input == nil
+      return "N/A"
     else
       return input
     end
@@ -68,9 +69,11 @@ class StateWideTest
     valid_entry = [:asian, :black, :pacific_islander, :hispanic,
                   :native_american, :two_or_more, :white, :math,
                   :reading, :writing, 3, 8]
-    if valid_entry.include?(input) == FALSE
-      return puts "UnknownDataError"
-    end
+     if valid_entry.include?(input) == false
+       raise UnknownDataError
+     else
+       input
+     end
   end
 
   def what_key?(input)

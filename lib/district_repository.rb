@@ -6,11 +6,13 @@ require "pry"
 class DistrictRepository
 attr_reader :data,
             :districts,
-            :enrollment_repository
+            :enrollment_repository,
+            :statewide_test
 
   def initialize
     @districts = []
     @enrollment_repository = EnrollmentRepository.new
+    @statewide_test = StatewideTestRepository.new
   end
 
   def load_data(args)
