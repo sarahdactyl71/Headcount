@@ -35,7 +35,7 @@ class StateWideTestTest < Minitest::Test
         assert_equal output, state_test.proficiency_by_grade(3)
     end
 
-    def test_proficient_by_race_retruns_correct_hash
+    def test_proficient_by_race_returns_correct_hash
       output = { 2011 => {math: 0.816, reading: 0.897, writing: 0.826},
      2012 => {math: 0.818, reading: 0.893, writing: 0.808},
      2013 => {math: 0.805, reading: 0.901, writing: 0.810},
