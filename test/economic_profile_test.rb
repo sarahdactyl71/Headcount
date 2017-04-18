@@ -22,8 +22,13 @@ class EconomicProfileTest < Minitest::Test
   end
 
   def test_can_it_pull_in_a_median_income
-    assert_equal 50000, ep.median_household_income_in_year(2005)
-    assert_equal 55000, ep.median_household_income_in_year(2009)
+    assert_equal 85060, ep.median_household_income_in_year(2005)
+    assert_equal 87635, ep.median_household_income_in_year(2009)
   end
 
+  def test_median_everything
+    assert_equal 87635, ep.median_household_income_average
+    assert_equal 0.064, ep.children_in_poverty_in_year(2012)
+    assert_equal 0.127, ep.free_or_reduced_price_lunch_percentage_in_year(2014)
+  end
 end

@@ -22,7 +22,41 @@ class EconomicProfile
   def median_household_income_in_year(year)
     compiler = compiler(@median_household_income, year)
     average(compiler)
-    binding.pry
+  end
+
+  def median_household_income_average
+    compiler = compile_everything(@median_household_income)
+    average(compiler)
+  end
+
+  def children_in_poverty_in_year(year)
+    output = selector(@children_in_poverty, year)
+    output.to_f
+  end
+
+  def free_or_reduced_price_lunch_percentage_in_year(year)
+    output = lunch_selector(@free_or_reduced_price_lunch, year)
+    truncate(output)
+  end
+
+  def lunch_selector(data, year)
+    data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Percent" && row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+        return row[:data].to_f
+      else
+        next
+      end
+    end
+  end
+
+  def selector(data, year)
+    data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Percent"
+        return row[:data]
+      else
+        next
+      end
+    end
   end
 
   def average(data)
@@ -33,6 +67,16 @@ class EconomicProfile
     sum = numbers.reduce(0) { |a, sum| a + sum }
     average = (sum/(numbers.count))
     average
+  end
+
+  def compile_everything(data)
+    compiler = []
+      data.select do |row|
+        if row[:location] == name
+            compiler << row
+        end
+      end
+    return compiler
   end
 
   def compiler(key, year)
@@ -50,14 +94,5 @@ class EconomicProfile
     last = range[5..8].to_i
     output = (first..last).to_a
   end
-  # def is_it_valid?(input)
-  #   valid_entry = [:asian, :black, :pacific_islander, :hispanic,
-  #                 :native_american, :two_or_more, :white, :math,
-  #                 :reading, :writing, 3, 8]
-  #    if valid_entry.include?(input) == false
-  #      raise UnknownDataError
-  #    else
-  #      input
-  #    end
-  # end
+
 end
