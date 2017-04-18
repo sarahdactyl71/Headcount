@@ -29,15 +29,20 @@ module Helper
   def load_statewide(args)
     args[:statewide_testing].keys.each do |key|
       if key == :third_grade
-        @tg_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        tg_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        @tg_key = tg_key.to_a
       elsif key == :eighth_grade
-        @eg_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        eg_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        @eg_key = eg_key.to_a
       elsif key == :math
-        @math_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        math_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        @math_key = math_key.to_a
       elsif key == :reading
-        @read_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        read_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        @read_key = read_key.to_a
       elsif key == :writing
-        @write_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        write_key = CSV.open(args[:statewide_testing][key], headers: true, header_converters: :symbol)
+        @write_key = write_key.to_a
       end
     end
   end

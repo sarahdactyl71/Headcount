@@ -16,10 +16,11 @@ class StateWideTest
     @writing = args[:writing]
   end
 
-  def proficiency_by_grade(input)
+  def proficient_by_grade(input)
     what_key?(input)
     compiler = compiler(@key)
-    hash_creator(hash_years(compiler), compiler)
+    output = hash_creator(hash_years(compiler), compiler)
+    return output
   end
 
   def proficient_by_race_or_ethnicity(race)
@@ -161,12 +162,12 @@ class StateWideTest
     input.select do |row|
       years << row[:timeframe].to_i
     end
-    years
+    years.uniq
   end
 
   def hash_creator(years, compiled_info)
     output = {}
-    years.uniq.each do |year|
+    years.each do |year|
       info = {}
       compiled_info.map do |row|
         if row[:timeframe].to_i == year
