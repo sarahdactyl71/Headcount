@@ -30,8 +30,7 @@ class StateWideTest
     @compiled_math = csap_compiler(race, @math)
     @compiled_reading = csap_compiler(race, @reading)
     @compiled_writing = csap_compiler(race, @writing)
-    csap_years(compiled_math)
-    csap_hash(csap_years(compiled_info), compiled_info)
+    csap_hash(csap_years(@compiled_math))
   end
 
   def csap_compiler(race, key)
@@ -51,36 +50,62 @@ class StateWideTest
       if row.class == Fixnum
         next
       else
-        years << row[:timeframe]
+        years << row[:timeframe].to_i
       end
     end
     years
   end
 
-  def csap_hash(years, compiled_info)
-      output = {}
-      years.each do |year|
-        info = {}
-        compiled_info.map do |row|
-          binding.pry
+  def csap_hash(years)
+    years.each do |year|
+      math = compile_math_hash(@compiled_math, years)
+      reading = compile_reading_hash(@compiled_reading, math)
+      writing = compile_writing_hash(@compiled_reading, reading)
+      return writing
+    end
+    binding.pry
+  end
 
-          end
-          to_merge = { year => info }
-          output.merge!(to_merge)
-          # if row[:timeframe].to_i == year
-          # info[row[:score].downcase.to_sym] = truncate(row[:data])
-          # end
+  def compile_writing_hash(rows, reading)
+    reading.each_pair do |year, hash|
+      info = {}
+      rows.map do |row|
+        if row[:timeframe].to_i == year
+          info["writing".downcase.to_sym] = truncate(row[:data])
         end
-      output
-      binding.pry
-    # data.each do |index|
-    #   index.map do |data|
-    # results = data.group_by do  |x|
-    #  x.to_s.split.to_a[4]
-    # end
-    # binding.pr
-end
+        hash.merge!(info)
+      end
+    end
+    reading
+  end
 
+  def compile_reading_hash(rows, math)
+    math.each_pair do |year, hash|
+      info = {}
+      rows.map do |row|
+        if row[:timeframe].to_i == year
+          info["reading".downcase.to_sym] = truncate(row[:data])
+        end
+        hash.merge!(info)
+      end
+    end
+    math
+  end
+
+  def compile_math_hash(rows, years)
+  output = {}
+  years.each do |year|
+    info = {}
+    rows.map do |row|
+      if row[:timeframe].to_i == year
+        info["math".downcase.to_sym] = truncate(row[:data])
+      end
+      to_merge = { year => info }
+      output.merge!(to_merge)
+      end
+    end
+    output
+  end
 
   def compiler(input, key)
     compiler = []
