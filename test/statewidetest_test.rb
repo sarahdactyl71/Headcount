@@ -23,7 +23,7 @@ class StateWideTestTest < Minitest::Test
   end
 
     def test_find_name
-        assert_instance_of StateWideTest, state_test = std.find_by_name('ACADEMY 20')
+        assert_instance_of StatewideTest, state_test = std.find_by_name('ACADEMY 20')
         output = { 2008 => {:math => 0.857, :reading => 0.866, :writing => 0.671},
           2009 => {:math => 0.824, :reading => 0.862, :writing => 0.706},
           2010 => {:math => 0.849, :reading => 0.864, :writing => 0.662},

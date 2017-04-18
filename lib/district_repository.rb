@@ -40,13 +40,4 @@ attr_reader :data,
     matches.map! {|district| district.name}
     matches.uniq
   end
-
-
 end
-
-
-  # def load_data(args)
-  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
-  #     districts << District.new({name: row[:location]})
-  #   end
-  # end

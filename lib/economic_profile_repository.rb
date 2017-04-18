@@ -12,7 +12,7 @@ class EconomicProfileRepository
                         :children_in_poverty => @cip_key,
                         :free_or_reduced_price_lunch => @forpl_key,
                         :title_i => @ti_key,
-                        :name=> @name_key,
+                        :name => input,
                         })
   end
 
