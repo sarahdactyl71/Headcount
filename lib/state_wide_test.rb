@@ -1,4 +1,4 @@
-require_relative "statewidetestrepository"
+require_relative "statewide_test"
 require_relative "helper_module"
 require 'pry'
 
@@ -14,14 +14,6 @@ class StateWideTest
     @math = args[:math]
     @reading = args[:reading]
     @writing = args[:writing]
-  end
-
-  def what_key?(input)
-    if input == 3
-      @key = @third_grade_info
-    elsif  input == 8
-      @key = @eighth_grade_info
-    end
   end
 
   def proficiency_by_grade(input)
@@ -43,9 +35,38 @@ class StateWideTest
     info_for_subject_by_grade(compiler, subject, year)
   end
 
+  def proficient_for_subject_by_race_in_year(subject, race, year)
+    if subject.to_s == "math"
+      compiled_math = csap_compiler(race, @math)
+      truncate(info_for_subject_by_race(compiled_math, subject, year))
+    elsif subject.to_s == "reading"
+      compiled_reading = csap_compiler(race, @reading)
+      truncate(info_for_subject_by_race(compiled_reading, subject, year))
+    elsif subject.to_s == "writing"
+      compiled_writing = csap_compiler(race, @writing)
+      truncate(info_for_subject_by_race(compiled_writing, subject, year))
+    end
+  end
+
+  def what_key?(input)
+    if input == 3
+      @key = @third_grade_info
+    elsif  input == 8
+      @key = @eighth_grade_info
+    end
+  end
+
   def info_for_subject_by_grade(data, subject, year)
     data.map do |row|
       if row[:score].downcase == subject.to_s && row[:timeframe].to_i == year
+        return row[:data].to_f
+      end
+    end
+  end
+
+  def info_for_subject_by_race(data, subject, year)
+    data.map do |row|
+      if row[:timeframe].to_i == year
         return row[:data].to_f
       end
     end
