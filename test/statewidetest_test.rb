@@ -9,7 +9,7 @@ class StateWideTestTest < Minitest::Test
               :state_test
 
   def setup
-    @std = StateWideTestRepository.new
+    @std = StatewideTestRepository.new
     std.load_data({
       :statewide_testing => {
         :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
