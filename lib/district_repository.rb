@@ -13,6 +13,7 @@ attr_reader :data,
     @districts = []
     @enrollment_repository = EnrollmentRepository.new
     @statewide_test = StatewideTestRepository.new
+    @economic_repository = EconomicProfileRepository.new
   end
 
   def load_data(args)

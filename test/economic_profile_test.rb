@@ -30,5 +30,12 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 87635, ep.median_household_income_average
     assert_equal 0.064, ep.children_in_poverty_in_year(2012)
     assert_equal 0.127, ep.free_or_reduced_price_lunch_percentage_in_year(2014)
+    assert_equal 3132, ep.free_or_reduced_price_lunch_number_in_year(2014)
+    assert_equal 0.027, ep.title_i_in_year(2014)
   end
+
+  def test_relationship
+    assert epr.find_by_name('ACADEMY 20').is_a?(EconomicProfile)
+  end
+
 end

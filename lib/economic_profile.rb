@@ -20,8 +20,12 @@ class EconomicProfile
   end
 
   def median_household_income_in_year(year)
-    compiler = compiler(@median_household_income, year)
-    average(compiler)
+    if @median_household_income.class == Hash
+      find_median(year)
+    else
+      compiler = compiler(@median_household_income, year)
+      average(compiler)
+    end
   end
 
   def median_household_income_average
@@ -39,9 +43,37 @@ class EconomicProfile
     truncate(output)
   end
 
+  def free_or_reduced_price_lunch_number_in_year(year)
+    output = lunch_number_selector(@free_or_reduced_price_lunch, year)
+    truncate(output)
+  end
+
+  def title_i_in_year(year)
+    output = selector(@title_i, year)
+    truncate(output)
+  end
+
+  def find_median(year)
+    @median_household_income.each do |key, value|
+      if key.include?(year)
+        return @median_household_income[key]
+        end
+    end
+  end
+
   def lunch_selector(data, year)
     data.select do |row|
       if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Percent" && row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+        return row[:data].to_f
+      else
+        next
+      end
+    end
+  end
+
+  def lunch_number_selector(data, year)
+    data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Number" && row[:poverty_level] == "Eligible for Free or Reduced Lunch"
         return row[:data].to_f
       else
         next
