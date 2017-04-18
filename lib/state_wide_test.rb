@@ -17,6 +17,7 @@ class StateWideTest
   end
 
   def proficient_by_grade(input)
+    is_it_valid?(input)
     what_key?(input)
     compiler = compiler(@key)
     output = hash_creator(hash_years(compiler), compiler)
@@ -24,6 +25,7 @@ class StateWideTest
   end
 
   def proficient_by_race_or_ethnicity(race)
+    is_it_valid?(race)
     @compiled_math = csap_compiler(race, @math)
     @compiled_reading = csap_compiler(race, @reading)
     @compiled_writing = csap_compiler(race, @writing)
@@ -31,12 +33,17 @@ class StateWideTest
   end
 
   def proficient_for_subject_by_grade_in_year(subject, grade, year)
+    is_it_valid?(subject)
+    is_it_valid?(grade)
     what_key?(grade)
     compiler = compiler(@key)
-    info_for_subject_by_grade(compiler, subject, year)
+    output = info_for_subject_by_grade(compiler, subject, year)
+    is_output_valid?(output)
   end
 
   def proficient_for_subject_by_race_in_year(subject, race, year)
+    is_it_valid?(subject)
+    is_it_valid?(race)
     if subject.to_s == "math"
       compiled_math = csap_compiler(race, @math)
       truncate(info_for_subject_by_race(compiled_math, subject, year))
@@ -46,6 +53,23 @@ class StateWideTest
     elsif subject.to_s == "writing"
       compiled_writing = csap_compiler(race, @writing)
       truncate(info_for_subject_by_race(compiled_writing, subject, year))
+    end
+  end
+
+  def is_output_valid(input)
+    if input == 0.0
+      return puts "N/A"
+    else
+      return input
+    end
+  end
+
+  def is_it_valid?(input)
+    valid_entry = [:asian, :black, :pacific_islander, :hispanic,
+                  :native_american, :two_or_more, :white, :math,
+                  :reading, :writing, 3, 8]
+    if valid_entry.include?(input) == FALSE
+      return puts "UnknownDataError"
     end
   end
 
