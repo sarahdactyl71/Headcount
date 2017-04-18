@@ -33,9 +33,18 @@ class StateWideTest
     csap_hash(csap_years(@compiled_math))
   end
 
+  def csap_hash(years)
+    years.each do |year|
+      math = compile_math_hash(@compiled_math, years)
+      reading = compile_reading_hash(@compiled_reading, math)
+      writing = compile_writing_hash(@compiled_writing, reading)
+      return writing
+    end
+  end
+
+
   def csap_compiler(race, key)
     csap = []
-    # keys = [@math, @reading, @writing]
       key.select do |row|
         if row[:race_ethnicity].downcase.to_sym == race && row[:location] == @name.upcase
           csap << row
@@ -56,15 +65,6 @@ class StateWideTest
     years
   end
 
-  def csap_hash(years)
-    years.each do |year|
-      math = compile_math_hash(@compiled_math, years)
-      reading = compile_reading_hash(@compiled_reading, math)
-      writing = compile_writing_hash(@compiled_reading, reading)
-      return writing
-    end
-    binding.pry
-  end
 
   def compile_writing_hash(rows, reading)
     reading.each_pair do |year, hash|
