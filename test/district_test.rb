@@ -13,7 +13,7 @@ class DistrictTest < Minitest::Test
           dr.load_data({:enrollment => {:kindergarten => "./data/Kindergartners in full-day program.csv"}})
     end
 
-    def test_district_basics
+    def test_district_has_a_name
       district = District.new({:name => "ACADEMY 20"})
       assert_equal "ACADEMY 20", district.name
     end
@@ -21,6 +21,10 @@ class DistrictTest < Minitest::Test
     def test_does_it_call_enrollment
       district = dr.find_by_name("ACADEMY 20")
       assert_equal 0.436, district.enrollment.kindergarten_participation_in_year(2010)
+    end
+
+    def test_distrist_knows_it_is_in_repository
+      assert_equal DistrictRepository, dr.class
     end
 
 end

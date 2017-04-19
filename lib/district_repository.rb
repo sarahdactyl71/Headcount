@@ -6,11 +6,14 @@ require_relative 'helper_module'
 require "pry"
 
 class DistrictRepository
+
 include Helper
+
 attr_reader :data,
             :districts,
             :enrollment_repository,
-            :statewide_test
+            :statewide_test,
+            :economic_repository
 
   def initialize
     @districts = []
@@ -18,12 +21,6 @@ attr_reader :data,
     @statewide_test = StatewideTestRepository.new
     @economic_repository = EconomicProfileRepository.new
   end
-  #
-  # def load_data(args)
-  #   data = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
-  #   enrollment_repository.load_data(args)
-  #   build_districts(data)
-  # end
 
   def build_districts(data)
     data.each do |row|

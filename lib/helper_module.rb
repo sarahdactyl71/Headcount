@@ -41,8 +41,6 @@ module Helper
       elsif key == :kindergarten && @kg_key == nil
         kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
         @kg_key = kg_key.to_a
-      # else
-      #   @data_key = CSV.open(args[:enrollment], headers: true, header_converters: :symbol)
       end
       data_key = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
       @data_key = data_key.to_a
@@ -146,5 +144,6 @@ module Helper
     end
     output
   end
+
 
 end
