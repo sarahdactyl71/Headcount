@@ -39,11 +39,6 @@ class HeadcountAnalyst
     is_it_valid?(subject)
     is_it_valid?(grade)
     which_grade_to_use(grade)
-    # if grade == 3
-    #   @key = data_cleaner(@tg_key)
-    # elsif grade == 8
-    #   @key = data_cleaner(@eg_key)
-    # end
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
@@ -62,11 +57,6 @@ class HeadcountAnalyst
   def state_wide_growth(args)
     grade = args.values[0]
     which_grade_to_use(grade)
-    # if grade == 3
-    #   @key = data_cleaner(@tg_key)
-    # elsif grade == 8
-    #   @key = data_cleaner(@eg_key)
-    # end
     subjects = [:reading, :writing, :math]
     subjects.each do |subject|
       compiled_info = statewide_compiler(@key, subject)
@@ -82,12 +72,7 @@ class HeadcountAnalyst
     top_number = args.values[1]
     is_it_valid?(subject)
     is_it_valid?(grade)
-    
-    # if grade == 3
-    #   @key = data_cleaner(@tg_key)
-    # elsif grade == 8
-    #   @key = data_cleaner(@eg_key)
-    # end
+    which_grade_to_use(grade)
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
