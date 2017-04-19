@@ -38,4 +38,16 @@ class EconomicProfileTest < Minitest::Test
     assert epr.find_by_name('ACADEMY 20').is_a?(EconomicProfile)
   end
 
+  def test_edge_cases
+  assert_raises(UnknownDataError) do
+    ep.children_in_poverty_in_year(3000)
+  end
+  assert_raises(UnknownDataError) do
+    ep.free_or_reduced_price_lunch_percentage_in_year("pizza")
+  end
+  assert_raises(UnknownDataError) do
+    ep.free_or_reduced_price_lunch_number_in_year(1890)
+  end
+  end
+
 end
