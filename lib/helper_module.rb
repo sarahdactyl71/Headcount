@@ -98,4 +98,36 @@ module Helper
       end
   end
 
+  def is_it_valid?(input)
+    valid_entry = [:math, :reading, :writing, 3, 8]
+     if valid_entry.include?(input) == false
+       puts "InsufficientInformationError: A grade must be provided to answer this question"
+     else
+       input
+     end
+  end
+
+  def second_stage_validator(grade, subject = nil)
+    is_it_valid?(subject)
+    is_it_valid?(grade)
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+  end
+
+  def data_cleaner(input)
+    corrupt_info = []
+    output = []
+    input.each do |row|
+      if row[:data].to_f == 0.0
+        corrupt_info << row
+      else
+        output << row
+      end
+    end
+    output
+  end
+
 end
