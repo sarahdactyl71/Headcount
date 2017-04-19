@@ -76,4 +76,12 @@ module Helper
     end
   end
 
+  def output_changer(output)
+      if output = []
+        return 0.0
+      else
+        return output
+      end
+  end
+
 end
