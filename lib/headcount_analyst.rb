@@ -24,11 +24,58 @@ class HeadcountAnalyst
                      :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
                    }
                  }
+    @district_growth_comparisons = {}
   end
 
-  def top_statewide_test_year_over_year_growth(subject)
+  def top_statewide_test_year_over_year_growth(args)
+    if args.count > 2
+      overall_growth(args)
+    else
     load_data(info)
-    binding.pry
+    grade = args.values[0]
+    subject = args.values[1]
+    is_it_valid?(subject)
+    is_it_valid?(grade)
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+    compiled_info = statewide_compiler(@key, subject)
+    districts = statewide_location_list(compiled_info)
+    date_comparison(districts, compiled_info)
+    largest?
+    end
+  end
+
+  def overall_growth(args)
+    load_data(info)
+    grade = args.values[0]
+    subject = args.values[2]
+    top_number = args.values[1]
+    is_it_valid?(subject)
+    is_it_valid?(grade)
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+    compiled_info = statewide_compiler(@key, subject)
+    districts = statewide_location_list(compiled_info)
+    date_comparison(districts, compiled_info)
+    output = top_number(top_number)
+    return output
+  end
+
+  def data_cleaner(input)
+    output = input.each do |row|
+      if row[:data].to_f == 0.0
+        row[:data] = 0.0
+      else
+        next
+      end
+    end
+    return output
   end
 
   def kindergarten_participation_rate_variation(district, comparison)
@@ -74,6 +121,75 @@ class HeadcountAnalyst
           false
         end
     end
+  end
+
+  def largest?
+    @district_growth_comparisons.max_by{|k,v| v}
+  end
+
+  def top_number(input)
+    top_numbers = []
+    input.times do |i|
+      remove = @district_growth_comparisons.max_by{|k,v| v}
+      top_numbers << remove
+      @district_growth_comparisons.delete(remove[0])
+    end
+    return top_numbers
+    binding.pry
+  end
+
+  def date_comparison(district, data)
+    district.each do |location|
+      @districts = []
+      data.map do |row|
+          if row[:location] == "Colorado"
+            next
+          elsif row[:location] == location.upcase
+            @districts << row
+          end
+      end
+    date_comparitor(@districts, location)
+    end
+  end
+
+  def date_comparitor(input, location)
+    first = input.first[:data].to_f
+    last = input.last[:data].to_f
+    years = ((input.count) - 1)
+    growth = truncate(((last - first) / years))
+    to_add = { location => growth}
+    @district_growth_comparisons.merge!(to_add)
+  end
+
+  def statewide_compiler(key, subject)
+    csap = []
+      key.select do |row|
+        if row[:score].downcase.to_sym == subject
+          csap << row
+        end
+      end
+    return csap
+  end
+
+  def statewide_location_list(input)
+    output = []
+    input.map do |row|
+      if row[:location] == "Colorado"
+        next
+      else
+      output << row[:location]
+      end
+    end
+    output.uniq
+  end
+
+  def is_it_valid?(input)
+    valid_entry = [:math, :reading, :writing, 3, 8]
+     if valid_entry.include?(input) == false
+       puts "InsufficientInformationError: A grade must be provided to answer this question"
+     else
+       input
+     end
   end
 
   def create_yes_and_no_arrays
