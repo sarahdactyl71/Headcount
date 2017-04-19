@@ -26,7 +26,7 @@ class HeadcountAnalystTest < Minitest::Test
     district = dr.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     @ha = HeadcountAnalyst.new(dr)
   end
-  
+
   def test_it_is_a_headcount_analyst
     assert ha
     assert_equal HeadcountAnalyst, ha.class
@@ -59,7 +59,6 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_if_statewide_kg_participation_correlates_with_state
-    skip
     refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
   end
 
