@@ -6,11 +6,14 @@ require_relative 'helper_module'
 require "pry"
 
 class DistrictRepository
+
 include Helper
+
 attr_reader :data,
             :districts,
             :enrollment_repository,
-            :statewide_test
+            :statewide_test,
+            :economic_repository
 
   def initialize
     @districts = []
