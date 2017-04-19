@@ -12,25 +12,35 @@ module Helper
               :forpl_key,
               :ti_key,
               :write_key,
-              :name_key
+              :name_key,
+              :data
 
   def truncate(value)
     (value.to_f*1000).floor/1000.0
   end
 
   def load_data(args)
-    if args.keys[0] == :statewide_testing
+    if args.keys[1] == :statewide_testing && args.keys[0] == :enrollment
+      load_statewide(args)
+      load_enrollment(args)
+    elsif args.keys[0] == :statewide_testing
       load_statewide(args)
     elsif args.keys[0] == :enrollment
-      args[:enrollment].keys.each do |key|
-        if key == :high_school_graduation
-          @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-        else
-          @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-        end
-      end
+      load_enrollment(args)
     elsif args.keys[0] == :economic_profile
       load_economic_profile(args)
+    end
+  end
+
+  def load_enrollment(args)
+    args[:enrollment].keys.each do |key|
+      if key == :high_school_graduation
+        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      elsif key == :kindergarten
+        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      else
+        @data = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+      end
     end
   end
 
