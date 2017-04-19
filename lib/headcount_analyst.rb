@@ -62,9 +62,7 @@ class HeadcountAnalyst
       compiled_info = statewide_compiler(@key, subject)
       districts = statewide_location_list(compiled_info)
       date_comparison(districts, compiled_info)
-      binding.pry
     end
-    binding.pry
   end
 
   def overall_growth(args)
@@ -83,17 +81,6 @@ class HeadcountAnalyst
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
     output = top_number(top_number)
-    return output
-  end
-
-  def data_cleaner(input)
-    output = input.each do |row|
-      if row[:data].to_f == 0.0
-        row[:data] = 0.0
-      else
-        next
-      end
-    end
     return output
   end
 
@@ -199,15 +186,6 @@ class HeadcountAnalyst
       end
     end
     output.uniq
-  end
-
-  def is_it_valid?(input)
-    valid_entry = [:math, :reading, :writing, 3, 8]
-     if valid_entry.include?(input) == false
-       puts "InsufficientInformationError: A grade must be provided to answer this question"
-     else
-       input
-     end
   end
 
   def create_yes_and_no_arrays

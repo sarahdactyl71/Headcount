@@ -94,4 +94,24 @@ module Helper
       end
   end
 
+  def is_it_valid?(input)
+    valid_entry = [:math, :reading, :writing, 3, 8]
+     if valid_entry.include?(input) == false
+       puts "InsufficientInformationError: A grade must be provided to answer this question"
+     else
+       input
+     end
+  end
+
+  def data_cleaner(input)
+    output = input.each do |row|
+      if row[:data].to_f == 0.0
+        row[:data] = 0.0
+      else
+        next
+      end
+    end
+    return output
+  end
+
 end
