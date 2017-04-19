@@ -36,13 +36,7 @@ class HeadcountAnalyst
     load_data(info)
     grade = args.values[0]
     subject = args.values[1]
-    is_it_valid?(subject)
-    is_it_valid?(grade)
-    if grade == 3
-      @key = data_cleaner(@tg_key)
-    elsif grade == 8
-      @key = data_cleaner(@eg_key)
-    end
+    second_stage_validator(grade, subject)
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
@@ -52,26 +46,16 @@ class HeadcountAnalyst
 
   def state_wide_growth(args)
     grade = args.values[0]
-    if grade == 3
-      @key = data_cleaner(@tg_key)
-    elsif grade == 8
-      @key = data_cleaner(@eg_key)
-    end
+    second_stage_validator(grade, :math)
     subjects = [:reading, :writing, :math]
     subjects.each do |subject|
       compiled_info = statewide_compiler(@key, subject)
       districts = statewide_location_list(compiled_info)
       date_comparison(districts, compiled_info)
-      binding.pry
     end
-    binding.pry
   end
 
-  def overall_growth(args)
-    load_data(info)
-    grade = args.values[0]
-    subject = args.values[2]
-    top_number = args.values[1]
+  def second_stage_validator(grade, subject = nil)
     is_it_valid?(subject)
     is_it_valid?(grade)
     if grade == 3
@@ -79,6 +63,14 @@ class HeadcountAnalyst
     elsif grade == 8
       @key = data_cleaner(@eg_key)
     end
+  end
+
+  def overall_growth(args)
+    load_data(info)
+    grade = args.values[0]
+    subject = args.values[2]
+    top_number = args.values[1]
+    second_stage_validator(grade, subject)
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
