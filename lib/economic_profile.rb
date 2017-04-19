@@ -1,5 +1,6 @@
 require_relative "economic_profile_repository"
 require_relative "helper_module"
+require_relative "error"
 require 'pry'
 
 class EconomicProfile
@@ -20,10 +21,82 @@ class EconomicProfile
   end
 
   def median_household_income_in_year(year)
-    compiler = compiler(@median_household_income, year)
-    average(compiler)
-    binding.pry
+    if @median_household_income.class == Hash
+      find_median(year)
+    else
+      compiler = compiler(@median_household_income, year)
+      average(compiler)
+    end
   end
+
+  def median_household_income_average
+    compiler = compile_everything(@median_household_income)
+    average = average(compiler)
+    is_output_valid?(average)
+  end
+
+  def children_in_poverty_in_year(year)
+    output = selector(@children_in_poverty, year)
+    output = output.to_f
+    is_output_valid?(output)
+  end
+
+  def free_or_reduced_price_lunch_percentage_in_year(year)
+    output = lunch_selector(@free_or_reduced_price_lunch, year)
+    is_output_valid?((truncate(output)))
+  end
+
+  def free_or_reduced_price_lunch_number_in_year(year)
+    output = lunch_number_selector(@free_or_reduced_price_lunch, year)
+    is_output_valid?((truncate(output)))
+  end
+
+  def title_i_in_year(year)
+    output = selector(@title_i, year)
+    is_output_valid?((truncate(output)))
+  end
+
+  def find_median(year)
+    @median_household_income.each do |key, value|
+      if key.include?(year)
+        return @median_household_income[key]
+        end
+    end
+  end
+
+  def lunch_selector(data, year)
+    output = data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Percent" && row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+        return row[:data].to_f
+      else
+        next
+      end
+    end
+    output_changer(output)
+  end
+
+  def lunch_number_selector(data, year)
+    output = data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Number" && row[:poverty_level] == "Eligible for Free or Reduced Lunch"
+        return row[:data].to_f
+      else
+        next
+      end
+    end
+    output_changer(output)
+  end
+
+  def selector(data, year)
+    output = data.select do |row|
+      if row[:timeframe].to_i == year && row[:location] == name.upcase && row[:dataformat] == "Percent"
+        return row[:data]
+      else
+        next
+      end
+    end
+    output_changer(output)
+  end
+
 
   def average(data)
     numbers = []
@@ -33,6 +106,24 @@ class EconomicProfile
     sum = numbers.reduce(0) { |a, sum| a + sum }
     average = (sum/(numbers.count))
     average
+  end
+
+  def is_output_valid?(input)
+    if input == 0.0 || input == nil
+      raise UnknownDataError
+    else
+      return input
+    end
+  end
+
+  def compile_everything(data)
+    compiler = []
+      data.select do |row|
+        if row[:location] == name
+            compiler << row
+        end
+      end
+    return compiler
   end
 
   def compiler(key, year)
@@ -50,14 +141,5 @@ class EconomicProfile
     last = range[5..8].to_i
     output = (first..last).to_a
   end
-  # def is_it_valid?(input)
-  #   valid_entry = [:asian, :black, :pacific_islander, :hispanic,
-  #                 :native_american, :two_or_more, :white, :math,
-  #                 :reading, :writing, 3, 8]
-  #    if valid_entry.include?(input) == false
-  #      raise UnknownDataError
-  #    else
-  #      input
-  #    end
-  # end
+
 end

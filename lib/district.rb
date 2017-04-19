@@ -23,4 +23,10 @@ attr_reader :name,
     distrepo.statewide_test.find_by_name(current_name)
   end
 
+  def economic_profile
+    distrepo = repo
+    current_name = name
+    distrepo.economic_repository.find_by_name(current_name)
+  end
+  
 end
