@@ -11,12 +11,18 @@ class HeadcountAnalystTest < Minitest::Test
 
   def setup
     @dr = DistrictRepository.new
-    dr.load_data({
-    :enrollment => {
-      :kindergarten => "./data/Kindergartners in full-day program.csv",
-      :high_school_graduation => "./data/High school graduation rates.csv"
-  }
-})
+    dr.load_data({:enrollment => {
+                    :kindergarten => "./data/Kindergartners in full-day program.csv",
+                    :high_school_graduation => "./data/High school graduation rates.csv",
+                   },
+                   :statewide_testing => {
+                     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+                     :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                     :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+                     :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+                     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+                   }
+                 })
     district = dr.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     @ha = HeadcountAnalyst.new(dr)
   end
@@ -53,6 +59,7 @@ class HeadcountAnalystTest < Minitest::Test
   end
 
   def test_if_statewide_kg_participation_correlates_with_state
+    skip
     refute ha.kindergarten_participation_correlates_with_high_school_graduation(:for => 'STATEWIDE')
   end
 
@@ -60,5 +67,10 @@ class HeadcountAnalystTest < Minitest::Test
     assert ha.kindergarten_participation_correlates_with_high_school_graduation(
     :across => ['ACADEMY 20', 'ADAMS COUNTY 14', 'BRIGHTON 27J', 'CHERRY CREEK 5'])
   end
+
+  def test_new_loading
+    ha.top_statewide_test_year_over_year_growth("test")
+  end
+
 
 end
