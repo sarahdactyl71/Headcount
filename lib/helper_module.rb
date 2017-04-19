@@ -13,7 +13,7 @@ module Helper
               :ti_key,
               :write_key,
               :name_key,
-              :data
+              :data_key
 
   def truncate(value)
     (value.to_f*1000).floor/1000.0
@@ -35,12 +35,16 @@ module Helper
   def load_enrollment(args)
     args[:enrollment].keys.each do |key|
       if key == :high_school_graduation
-        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        @hs_key = hs_key.to_a
       elsif key == :kindergarten
-        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      else
-        @data = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        @kg_key = kg_key.to_a
+      # else
+      #   @data_key = CSV.open(args[:enrollment], headers: true, header_converters: :symbol)
       end
+      data_key = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+      @data_key = data_key.to_a
     end
   end
 
@@ -92,6 +96,38 @@ module Helper
       else
         return output
       end
+  end
+
+  def is_it_valid?(input)
+    valid_entry = [:math, :reading, :writing, 3, 8]
+     if valid_entry.include?(input) == false
+       puts "InsufficientInformationError: A grade must be provided to answer this question"
+     else
+       input
+     end
+  end
+
+  def second_stage_validator(grade, subject = nil)
+    is_it_valid?(subject)
+    is_it_valid?(grade)
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+  end
+
+  def data_cleaner(input)
+    corrupt_info = []
+    output = []
+    input.each do |row|
+      if row[:data].to_f == 0.0
+        corrupt_info << row
+      else
+        output << row
+      end
+    end
+    output
   end
 
 end

@@ -28,5 +28,5 @@ attr_reader :name,
     current_name = name
     distrepo.economic_repository.find_by_name(current_name)
   end
-  
+
 end

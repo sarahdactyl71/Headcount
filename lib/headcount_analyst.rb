@@ -27,68 +27,6 @@ class HeadcountAnalyst
     @district_growth_comparisons = {}
   end
 
-  def top_statewide_test_year_over_year_growth(args)
-    if args.count > 2
-      overall_growth(args)
-    elsif args.count == 1
-      state_wide_growth(args)
-    else
-    load_data(info)
-    grade = args.values[0]
-    subject = args.values[1]
-    second_stage_validator(grade, subject)
-    compiled_info = statewide_compiler(@key, subject)
-    districts = statewide_location_list(compiled_info)
-    date_comparison(districts, compiled_info)
-    largest?
-    end
-  end
-
-  def state_wide_growth(args)
-    grade = args.values[0]
-    second_stage_validator(grade, :math)
-    subjects = [:reading, :writing, :math]
-    subjects.each do |subject|
-      compiled_info = statewide_compiler(@key, subject)
-      districts = statewide_location_list(compiled_info)
-      date_comparison(districts, compiled_info)
-    end
-  end
-
-  def second_stage_validator(grade, subject = nil)
-    is_it_valid?(subject)
-    is_it_valid?(grade)
-    if grade == 3
-      @key = data_cleaner(@tg_key)
-    elsif grade == 8
-      @key = data_cleaner(@eg_key)
-    end
-  end
-
-  def overall_growth(args)
-    load_data(info)
-    grade = args.values[0]
-    subject = args.values[2]
-    top_number = args.values[1]
-    second_stage_validator(grade, subject)
-    compiled_info = statewide_compiler(@key, subject)
-    districts = statewide_location_list(compiled_info)
-    date_comparison(districts, compiled_info)
-    output = top_number(top_number)
-    return output
-  end
-
-  def data_cleaner(input)
-    output = input.each do |row|
-      if row[:data].to_f == 0.0
-        row[:data] = 0.0
-      else
-        next
-      end
-    end
-    return output
-  end
-
   def kindergarten_participation_rate_variation(district, comparison)
     district = collect_participation(year_and_rate_kindergarten(district))
     truncate(district/comparison_kindergarden(district, comparison))
@@ -134,9 +72,52 @@ class HeadcountAnalyst
     end
   end
 
+  def top_statewide_test_year_over_year_growth(args)
+    if args.count > 2
+      overall_growth(args)
+    elsif args.count == 1
+      state_wide_growth(args)
+    else
+    load_data(info)
+    grade = args.values[0]
+    subject = args.values[1]
+    second_stage_validator(grade, subject)
+    compiled_info = statewide_compiler(@key, subject)
+    districts = statewide_location_list(compiled_info)
+    date_comparison(districts, compiled_info)
+    largest?
+    end
+  end
+
+  def overall_growth(args)
+    load_data(info)
+    grade = args.values[0]
+    subject = args.values[2]
+    top_number = args.values[1]
+    second_stage_validator(grade, subject)
+    compiled_info = statewide_compiler(@key, subject)
+    districts = statewide_location_list(compiled_info)
+    date_comparison(districts, compiled_info)
+    output = top_number(top_number)
+    return output
+  end
+
+
+  def state_wide_growth(args)
+    grade = args.values[0]
+    second_stage_validator(grade, :math)
+    subjects = [:reading, :writing, :math]
+    subjects.each do |subject|
+      compiled_info = statewide_compiler(@key, subject)
+      districts = statewide_location_list(compiled_info)
+      date_comparison(districts, compiled_info)
+    end
+  end
+
   def largest?
     @district_growth_comparisons.max_by{|k,v| v}
   end
+
 
   def top_number(input)
     top_numbers = []
@@ -162,13 +143,35 @@ class HeadcountAnalyst
     end
   end
 
+  def kg_state_sum
+    collect_participation(year_and_rate_kindergarten('Colorado'))
+  end
+
+  def hs_state_sum
+    collect_participation(year_and_rate_highschool('Colorado'))
+  end
+
+  def kg_sum(district)
+    collect_participation(year_and_rate_kindergarten(district))
+  end
+
+  def hs_sum(district)
+    collect_participation(year_and_rate_highschool(district))
+  end
+
   def date_comparitor(input, location)
     first = input.first[:data].to_f
     last = input.last[:data].to_f
     years = ((input.count) - 1)
-    growth = truncate(((last - first) / years))
-    to_add = { location => growth}
-    @district_growth_comparisons.merge!(to_add)
+    # if location ==  "WILEY RE-13 JT"
+    #   binding.pry
+    # end
+    if years == 0
+      years = 1
+    end
+      growth = truncate(((last - first) / years).abs)
+      to_add = { location => growth}
+      @district_growth_comparisons.merge!(to_add)
   end
 
   def statewide_compiler(key, subject)
@@ -193,18 +196,11 @@ class HeadcountAnalyst
     output.uniq
   end
 
-  def is_it_valid?(input)
-    valid_entry = [:math, :reading, :writing, 3, 8]
-     if valid_entry.include?(input) == false
-       puts "InsufficientInformationError: A grade must be provided to answer this question"
-     else
-       input
-     end
-  end
 
   def create_yes_and_no_arrays
     yes = []
     no = []
+    load_data(info)
     kg_and_hs_averages.each do |sum|
     outcome = (sum[0] / sum[1])
       if sum[0] == 0.0 || sum[1] == 0.0
@@ -240,7 +236,6 @@ class HeadcountAnalyst
   end
 
   def kg_statewide_data
-    load_data(info)
     all_kg_districts = []
     @kg_key.each do |row|
       if row[:location] == "Colorado"
@@ -310,22 +305,6 @@ class HeadcountAnalyst
   def participation_average(input)
     sum = input.reduce(0) { |a, value| a + value }
     output = sum/(input.count)
-  end
-
-  def kg_state_sum
-    collect_participation(year_and_rate_kindergarten('Colorado'))
-  end
-
-  def hs_state_sum
-    collect_participation(year_and_rate_highschool('Colorado'))
-  end
-
-  def kg_sum(district)
-    collect_participation(year_and_rate_kindergarten(district))
-  end
-
-  def hs_sum(district)
-    collect_participation(year_and_rate_highschool(district))
   end
 
 end
