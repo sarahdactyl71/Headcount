@@ -75,6 +75,7 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal top_three, ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     top_four = [["SPRINGFIELD RE-4", 0.149], ["WESTMINSTER 50", 0.1], ["CENTENNIAL R-1", 0.088], ["CHERAW 31", 0.087]]
     assert_equal top_four, ha.top_statewide_test_year_over_year_growth(grade: 3, top: 4, subject: :math)
+    ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
 

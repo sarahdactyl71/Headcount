@@ -30,6 +30,8 @@ class HeadcountAnalyst
   def top_statewide_test_year_over_year_growth(args)
     if args.count > 2
       overall_growth(args)
+    elsif args.count == 1
+      state_wide_growth(args)
     else
     load_data(info)
     grade = args.values[0]
@@ -46,6 +48,23 @@ class HeadcountAnalyst
     date_comparison(districts, compiled_info)
     largest?
     end
+  end
+
+  def state_wide_growth(args)
+    grade = args.values[0]
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+    subjects = [:reading, :writing, :math]
+    subjects.each do |subject|
+      compiled_info = statewide_compiler(@key, subject)
+      districts = statewide_location_list(compiled_info)
+      date_comparison(districts, compiled_info)
+      binding.pry
+    end
+    binding.pry
   end
 
   def overall_growth(args)
@@ -135,7 +154,6 @@ class HeadcountAnalyst
       @district_growth_comparisons.delete(remove[0])
     end
     return top_numbers
-    binding.pry
   end
 
   def date_comparison(district, data)
