@@ -16,6 +16,9 @@ class EnrollmentRepository
 
   def kindergarten_info(input)
     info = {}
+    if @kg_key == nil
+      emergency_info
+    end
     @kg_key.each do |row|
       if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
