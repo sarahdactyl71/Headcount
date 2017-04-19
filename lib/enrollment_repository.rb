@@ -39,9 +39,3 @@ class EnrollmentRepository
   end
 
 end
-
-  # def load_data(args)
-  #   CSV.foreach(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol) do |row|
-  #     enrollments << Enrollment.new({name: row[:location], :kindergarten_participation => nil})
-  #   end
-  # end
