@@ -46,14 +46,6 @@ class HeadcountAnalyst
     end
   end
 
-  def which_grade_to_use(grade)
-    if grade == 3
-      @key = data_cleaner(@tg_key)
-    elsif grade == 8
-      @key = data_cleaner(@eg_key)
-    end
-  end
-
   def state_wide_growth(args)
     grade = args.values[0]
     which_grade_to_use(grade)

@@ -114,4 +114,12 @@ module Helper
     return output
   end
 
+  def which_grade_to_use(grade)
+    if grade == 3
+      @key = data_cleaner(@tg_key)
+    elsif grade == 8
+      @key = data_cleaner(@eg_key)
+    end
+  end
+
 end
