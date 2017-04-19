@@ -75,7 +75,7 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal top_three, ha.top_statewide_test_year_over_year_growth(grade: 3, top: 3, subject: :math)
     top_four = [["FRENCHMAN RE-3", 0.313], ["WILEY RE-13 JT", 0.3], ["LA VETA RE-2", 0.162], ["WELDON VALLEY RE-20(J)", 0.135]]
     assert_equal top_four, ha.top_statewide_test_year_over_year_growth(grade: 3, top: 4, subject: :math)
-    assert_equal "SANGRE DE CRISTO RE-22J", ha.top_statewide_test_year_over_year_growth(grade: 3)
+    assert_equal ["LA VETA RE-2", 0.53], ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
 
 

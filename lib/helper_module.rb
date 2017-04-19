@@ -13,7 +13,8 @@ module Helper
               :ti_key,
               :write_key,
               :name_key,
-              :data_key
+              :data_key,
+              :emerg
 
   def truncate(value)
     (value.to_f*1000).floor/1000.0
@@ -34,10 +35,10 @@ module Helper
 
   def load_enrollment(args)
     args[:enrollment].keys.each do |key|
-      if key == :high_school_graduation
+      if key == :high_school_graduation && @hs_key == nil
         hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
         @hs_key = hs_key.to_a
-      elsif key == :kindergarten
+      elsif key == :kindergarten && @kg_key == nil
         kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
         @kg_key = kg_key.to_a
       # else
@@ -88,6 +89,22 @@ module Helper
         @name_key = name_key.to_a
       end
     end
+  end
+
+  def emergency_info
+    @emerg = {:enrollment => {
+                    :kindergarten => "./data/Kindergartners in full-day program.csv",
+                    :high_school_graduation => "./data/High school graduation rates.csv",
+                   },
+                   :statewide_testing => {
+                     :third_grade => "./data/3rd grade students scoring proficient or above on the CSAP_TCAP.csv",
+                     :eighth_grade => "./data/8th grade students scoring proficient or above on the CSAP_TCAP.csv",
+                     :math => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Math.csv",
+                     :reading => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Reading.csv",
+                     :writing => "./data/Average proficiency on the CSAP_TCAP by race_ethnicity_ Writing.csv"
+                   }
+                 }
+    load_data(@emerg)
   end
 
   def output_changer(output)
