@@ -32,6 +32,7 @@ attr_reader :data,
   end
 
   def find_by_name(input)
+    build_districts(@data_key)
     districts.find do |district|
       district.name == input.upcase
     end

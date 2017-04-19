@@ -13,7 +13,7 @@ module Helper
               :ti_key,
               :write_key,
               :name_key,
-              :data
+              :data_key
 
   def truncate(value)
     (value.to_f*1000).floor/1000.0
@@ -35,12 +35,16 @@ module Helper
   def load_enrollment(args)
     args[:enrollment].keys.each do |key|
       if key == :high_school_graduation
-        @hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        hs_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        @hs_key = hs_key.to_a
       elsif key == :kindergarten
-        @kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
-      else
-        @data = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        kg_key = CSV.open(args[:enrollment][key], headers: true, header_converters: :symbol)
+        @kg_key = kg_key.to_a
+      # else
+      #   @data_key = CSV.open(args[:enrollment], headers: true, header_converters: :symbol)
       end
+      data_key = CSV.open(args[:enrollment][:kindergarten], headers: true, header_converters: :symbol)
+      @data_key = data_key.to_a
     end
   end
 

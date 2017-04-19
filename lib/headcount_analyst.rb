@@ -44,6 +44,20 @@ class HeadcountAnalyst
     end
   end
 
+  def overall_growth(args)
+    load_data(info)
+    grade = args.values[0]
+    subject = args.values[2]
+    top_number = args.values[1]
+    second_stage_validator(grade, subject)
+    compiled_info = statewide_compiler(@key, subject)
+    districts = statewide_location_list(compiled_info)
+    date_comparison(districts, compiled_info)
+    output = top_number(top_number)
+    return output
+  end
+
+
   def state_wide_growth(args)
     grade = args.values[0]
     second_stage_validator(grade, :math)
@@ -65,18 +79,6 @@ class HeadcountAnalyst
     end
   end
 
-  def overall_growth(args)
-    load_data(info)
-    grade = args.values[0]
-    subject = args.values[2]
-    top_number = args.values[1]
-    second_stage_validator(grade, subject)
-    compiled_info = statewide_compiler(@key, subject)
-    districts = statewide_location_list(compiled_info)
-    date_comparison(districts, compiled_info)
-    output = top_number(top_number)
-    return output
-  end
 
   def data_cleaner(input)
     output = input.each do |row|
@@ -205,6 +207,7 @@ class HeadcountAnalyst
   def create_yes_and_no_arrays
     yes = []
     no = []
+    load_data(info)
     kg_and_hs_averages.each do |sum|
     outcome = (sum[0] / sum[1])
       if sum[0] == 0.0 || sum[1] == 0.0
@@ -240,7 +243,6 @@ class HeadcountAnalyst
   end
 
   def kg_statewide_data
-    load_data(info)
     all_kg_districts = []
     @kg_key.each do |row|
       if row[:location] == "Colorado"
