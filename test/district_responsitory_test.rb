@@ -20,15 +20,28 @@ class DistrictReponsitoryTest < Minitest::Test
     assert_instance_of DistrictRepository, dr
   end
 
-  def test_load_data
+  def test_load_data_if_case_insensitive
     district = dr.find_by_name("academy 20")
     assert_equal "ACADEMY 20", district.name
-    #assert_equal true, district.enrollment_repository.kindergarten_participation_in_year(2010)
-    end
+    assert_equal District, district.class
+  end
 
-  def test_load_data_two
+  def test_load_data_if_upcase
     district = dr.find_by_name("JOHNSTOWN-MILLIKEN RE-5J")
     assert_equal "JOHNSTOWN-MILLIKEN RE-5J", district.name
-    end
+    assert_equal District, district.class
+  end
+
+  def test_empty_districts_by_default
+    assert dr.districts
+    assert_equal Array, dr.districts.class
+    assert dr.districts.empty?
+  end
+
+  def test_if_district_exists
+    district = dr.find_by_name("LAND OF OOO")
+    assert_nil district
+  end
+
 
 end
