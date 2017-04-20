@@ -45,7 +45,6 @@ class HeadcountAnalyst
     date_comparison(districts, compiled_info)
     largest?
     end
-    # binding.pry
   end
 
   def state_wide_growth(args)
@@ -296,13 +295,28 @@ class HeadcountAnalyst
   end
 
   def kg_and_hs_averages
-    kg_avg = kg_statewide_data.map! do |average|
-      average/kg_state_sum
-    end
+    # kg_avg = kg_statewide_data.map! do |average|
+    #   average/kg_state_sum
+    # end
+    # hs_avg = hs_statewide_data.map! do |average|
+    #   average/hs_state_sum
+    # end
+    kg_average.zip(hs_average)
+    # kg_avg.zip(hs_avg)
+  end
+
+  def hs_average
     hs_avg = hs_statewide_data.map! do |average|
       average/hs_state_sum
     end
-    kg_avg.zip(hs_avg)
+    hs_avg
+  end
+
+  def kg_average
+    kg_avg = kg_statewide_data.map! do |average|
+      average/kg_state_sum
+    end
+    kg_avg
   end
 
   def single_district_correlation(district)
