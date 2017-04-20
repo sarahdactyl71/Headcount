@@ -32,7 +32,6 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal HeadcountAnalyst, ha.class
   end
 
-
   def test_it_has_district_repository_by_defaul
     assert_equal DistrictRepository, ha.district_repository.class
   end
@@ -77,6 +76,5 @@ class HeadcountAnalystTest < Minitest::Test
     assert_equal top_four, ha.top_statewide_test_year_over_year_growth(grade: 3, top: 4, subject: :math)
     assert_equal ["LA VETA RE-2", 0.53], ha.top_statewide_test_year_over_year_growth(grade: 3)
   end
-
 
 end

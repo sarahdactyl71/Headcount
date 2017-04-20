@@ -116,7 +116,7 @@ module Helper
   def is_it_valid?(input)
     valid_entry = [:math, :reading, :writing, 3, 8]
      if valid_entry.include?(input) == false
-       puts "InsufficientInformationError: A grade must be provided to answer this question"
+       raise InsufficientInformationError
      else
        input
      end
