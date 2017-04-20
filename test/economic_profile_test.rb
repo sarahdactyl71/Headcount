@@ -43,6 +43,9 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.011, ep.title_i_in_year(2011)
     assert_equal 0.012, ep.title_i_in_year(2013)
     assert_equal 0.014, ep.title_i_in_year(2009)
+    assert_raises(UnknownDataError) do
+      ep.title_i_in_year(1995)
+    end
   end
 
   def test_children_in_poverty_over_years
@@ -50,6 +53,9 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.04404, ep.children_in_poverty_in_year(2008)
     assert_equal 0.042, ep.children_in_poverty_in_year(2005)
     assert_equal 0.05754, ep.children_in_poverty_in_year(2010)
+    assert_raises(UnknownDataError) do
+      ep.children_in_poverty_in_year(1895)
+    end
   end
 
   def test_percentage_of_free_or_reduced_lunch
@@ -57,6 +63,9 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 0.119, ep.free_or_reduced_price_lunch_percentage_in_year(2011)
     assert_equal 0.08, ep.free_or_reduced_price_lunch_percentage_in_year(2007)
     assert_equal 0.103, ep.free_or_reduced_price_lunch_percentage_in_year(2009)
+    assert_raises(UnknownDataError) do
+      ep.free_or_reduced_price_lunch_percentage_in_year(1995)
+    end
   end
 
   def test_number_of_students_with_free_or_reduced_lunches
@@ -64,22 +73,13 @@ class EconomicProfileTest < Minitest::Test
     assert_equal 2834, ep.free_or_reduced_price_lunch_number_in_year(2011)
     assert_equal 1630, ep.free_or_reduced_price_lunch_number_in_year(2007)
     assert_equal 2338, ep.free_or_reduced_price_lunch_number_in_year(2009)
+    assert_raises(UnknownDataError) do
+      ep.free_or_reduced_price_lunch_number_in_year(1995)
+    end
   end
 
   def test_relationship
     assert epr.find_by_name('ACADEMY 20').is_a?(EconomicProfile)
-  end
-
-  def test_edge_cases
-    assert_raises(UnknownDataError) do
-      ep.children_in_poverty_in_year(3000)
-    end
-    assert_raises(UnknownDataError) do
-      ep.free_or_reduced_price_lunch_percentage_in_year("pizza")
-    end
-    assert_raises(UnknownDataError) do
-      ep.free_or_reduced_price_lunch_number_in_year(1890)
-    end
   end
 
 end

@@ -25,7 +25,7 @@ class EconomicProfile
       find_median(year)
     else
       compiler = compiler(@median_household_income, year)
-      average(compiler)
+      is_output_valid?(average(compiler))
     end
   end
 
