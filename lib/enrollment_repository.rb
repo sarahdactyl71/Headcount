@@ -16,9 +16,7 @@ class EnrollmentRepository
 
   def kindergarten_info(input)
     info = {}
-    if @kg_key == nil
-      emergency_info
-    end
+    emergency_loader
     @kg_key.each do |row|
       if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
@@ -29,15 +27,12 @@ class EnrollmentRepository
 
   def high_school_info(input)
     info = {}
-    if @hs_key == nil
-      kindergarten_info(input)
-    else
+    emergency_loader
     @hs_key.each do |row|
       if row[:location] == input.upcase
         info[row[:timeframe].to_i] = row[:data].to_f
       end
     end
-  end
     info
   end
 
