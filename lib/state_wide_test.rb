@@ -57,14 +57,6 @@ class StatewideTest
     end
   end
 
-  def is_output_valid?(input)
-    if input == 0.0 || input == nil
-      return "N/A"
-    else
-      return input
-    end
-  end
-
   def is_it_valid?(input)
     valid_entry = [:asian, :black, :pacific_islander, :hispanic,
                   :native_american, :two_or_more, :white, :math,

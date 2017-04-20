@@ -39,7 +39,6 @@ class HeadcountAnalyst
     subject = args.values[1]
     is_it_valid?(subject)
     is_it_valid?(grade)
-    which_grade_to_use(grade)
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
@@ -50,7 +49,6 @@ class HeadcountAnalyst
   def state_wide_growth(args)
     load_data(info)
     grade = args.values[0]
-    which_grade_to_use(grade)
     subjects = [:reading, :math, :writing]
     subjects.each do |subject|
       compiled_info = statewide_compiler(@key, subject)
@@ -66,7 +64,6 @@ class HeadcountAnalyst
     top_number = args.values[1]
     is_it_valid?(subject)
     is_it_valid?(grade)
-    which_grade_to_use(grade)
     compiled_info = statewide_compiler(@key, subject)
     districts = statewide_location_list(compiled_info)
     date_comparison(districts, compiled_info)
@@ -163,6 +160,22 @@ class HeadcountAnalyst
     divide_by_three
   end
 
+  def kg_state_sum
+    collect_participation(year_and_rate_kindergarten('Colorado'))
+  end
+
+  def hs_state_sum
+    collect_participation(year_and_rate_highschool('Colorado'))
+  end
+
+  def kg_sum(district)
+    collect_participation(year_and_rate_kindergarten(district))
+  end
+
+  def hs_sum(district)
+    collect_participation(year_and_rate_highschool(district))
+  end
+
   def divide_by_three
     output = @state_growth_comparisons.each_value do |value|
       value/3
@@ -222,7 +235,6 @@ class HeadcountAnalyst
     @district_growth_comparisons.max_by{|k,v| v}
   end
 
-
   def top_number(input)
     top_numbers = []
     input.times do |i|
@@ -259,22 +271,6 @@ class HeadcountAnalyst
     @district_growth_comparisons.merge!(to_add)
   end
 
-  def kg_state_sum
-    collect_participation(year_and_rate_kindergarten('Colorado'))
-  end
-
-  def hs_state_sum
-    collect_participation(year_and_rate_highschool('Colorado'))
-  end
-
-  def kg_sum(district)
-    collect_participation(year_and_rate_kindergarten(district))
-  end
-
-  def hs_sum(district)
-    collect_participation(year_and_rate_highschool(district))
-  end
-
   def create_yes_and_no_arrays
     yes = []
     no = []
@@ -295,14 +291,7 @@ class HeadcountAnalyst
   end
 
   def kg_and_hs_averages
-    # kg_avg = kg_statewide_data.map! do |average|
-    #   average/kg_state_sum
-    # end
-    # hs_avg = hs_statewide_data.map! do |average|
-    #   average/hs_state_sum
-    # end
     kg_average.zip(hs_average)
-    # kg_avg.zip(hs_avg)
   end
 
   def hs_average

@@ -89,6 +89,12 @@ module Helper
     end
   end
 
+  def emergency_loader
+    if @kg_key == nil || @hs_key == nil
+      emergency_info
+    end
+  end
+
   def emergency_info
     @emerg = {:enrollment => {
                     :kindergarten => "./data/Kindergartners in full-day program.csv",
@@ -111,6 +117,14 @@ module Helper
       else
         return output
       end
+  end
+
+  def is_output_valid?(input)
+    if input == 0.0 || input == nil
+      return "N/A"
+    else
+      return input
+    end
   end
 
   def is_it_valid?(input)
